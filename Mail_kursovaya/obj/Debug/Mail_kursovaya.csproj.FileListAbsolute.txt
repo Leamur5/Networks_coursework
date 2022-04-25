@@ -1,0 +1,12 @@
+C:\Users\Asus\source\repos\Mail_kursovaya\Mail_kursovaya\bin\Debug\Mail_kursovaya.exe.config
+C:\Users\Asus\source\repos\Mail_kursovaya\Mail_kursovaya\bin\Debug\Mail_kursovaya.exe
+C:\Users\Asus\source\repos\Mail_kursovaya\Mail_kursovaya\bin\Debug\Mail_kursovaya.pdb
+C:\Users\Asus\source\repos\Mail_kursovaya\Mail_kursovaya\obj\Debug\Mail_kursovaya.csproj.AssemblyReference.cache
+C:\Users\Asus\source\repos\Mail_kursovaya\Mail_kursovaya\obj\Debug\Mail_kursovaya.Form1.resources
+C:\Users\Asus\source\repos\Mail_kursovaya\Mail_kursovaya\obj\Debug\Mail_kursovaya.Properties.Resources.resources
+C:\Users\Asus\source\repos\Mail_kursovaya\Mail_kursovaya\obj\Debug\Mail_kursovaya.csproj.GenerateResource.cache
+C:\Users\Asus\source\repos\Mail_kursovaya\Mail_kursovaya\obj\Debug\Mail_kursovaya.csproj.CoreCompileInputs.cache
+C:\Users\Asus\source\repos\Mail_kursovaya\Mail_kursovaya\obj\Debug\Mail_kursovaya.exe
+C:\Users\Asus\source\repos\Mail_kursovaya\Mail_kursovaya\obj\Debug\Mail_kursovaya.pdb
+C:\Users\Asus\source\repos\Mail_kursovaya\Mail_kursovaya\obj\Debug\Mail_kursovaya.Form2.resources
+C:\Users\Asus\source\repos\Mail_kursovaya\Mail_kursovaya\obj\Debug\Mail_kursovaya.Form3.resources
