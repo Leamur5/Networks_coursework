@@ -58,5 +58,10 @@ namespace Mail_kursovaya
             Form3 inbox_folder = new Form3();
             inbox_folder.Show();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

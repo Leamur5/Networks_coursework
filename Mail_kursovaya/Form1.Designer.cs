@@ -50,11 +50,14 @@ namespace Mail_kursovaya
             this.настройкаПортовToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.скоростьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.порт2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.справкаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.addtotextbox1 = new System.Windows.Forms.RichTextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.справкаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label6 = new System.Windows.Forms.Label();
+            this.OpenPortsButton = new System.Windows.Forms.Button();
+            this.ClosePortsButton = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -181,7 +184,7 @@ namespace Mail_kursovaya
             this.label7.AutoSize = true;
             this.label7.BackColor = System.Drawing.Color.Transparent;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label7.Location = new System.Drawing.Point(659, 404);
+            this.label7.Location = new System.Drawing.Point(659, 454);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(260, 32);
             this.label7.TabIndex = 13;
@@ -207,20 +210,20 @@ namespace Mail_kursovaya
             this.входящиеToolStripMenuItem,
             this.исходящиеToolStripMenuItem});
             this.сообщенияToolStripMenuItem.Name = "сообщенияToolStripMenuItem";
-            this.сообщенияToolStripMenuItem.Size = new System.Drawing.Size(105, 26);
+            this.сообщенияToolStripMenuItem.Size = new System.Drawing.Size(105, 24);
             this.сообщенияToolStripMenuItem.Text = "Сообщения";
             // 
             // входящиеToolStripMenuItem
             // 
             this.входящиеToolStripMenuItem.Name = "входящиеToolStripMenuItem";
-            this.входящиеToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.входящиеToolStripMenuItem.Size = new System.Drawing.Size(171, 26);
             this.входящиеToolStripMenuItem.Text = "Входящие";
             this.входящиеToolStripMenuItem.Click += new System.EventHandler(this.входящиеToolStripMenuItem_Click);
             // 
             // исходящиеToolStripMenuItem
             // 
             this.исходящиеToolStripMenuItem.Name = "исходящиеToolStripMenuItem";
-            this.исходящиеToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.исходящиеToolStripMenuItem.Size = new System.Drawing.Size(171, 26);
             this.исходящиеToolStripMenuItem.Text = "Исходящие";
             this.исходящиеToolStripMenuItem.Click += new System.EventHandler(this.исходящиеToolStripMenuItem_Click);
             // 
@@ -237,21 +240,27 @@ namespace Mail_kursovaya
             // скоростьToolStripMenuItem
             // 
             this.скоростьToolStripMenuItem.Name = "скоростьToolStripMenuItem";
-            this.скоростьToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.скоростьToolStripMenuItem.Size = new System.Drawing.Size(150, 26);
             this.скоростьToolStripMenuItem.Text = "Порт 1";
             this.скоростьToolStripMenuItem.Click += new System.EventHandler(this.скоростьToolStripMenuItem_Click);
             // 
             // порт2ToolStripMenuItem
             // 
             this.порт2ToolStripMenuItem.Name = "порт2ToolStripMenuItem";
-            this.порт2ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.порт2ToolStripMenuItem.Size = new System.Drawing.Size(150, 26);
             this.порт2ToolStripMenuItem.Text = "Порт 2";
+            // 
+            // справкаToolStripMenuItem
+            // 
+            this.справкаToolStripMenuItem.Name = "справкаToolStripMenuItem";
+            this.справкаToolStripMenuItem.Size = new System.Drawing.Size(150, 26);
+            this.справкаToolStripMenuItem.Text = "Справка";
             // 
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(1061, 521);
+            this.pictureBox1.Location = new System.Drawing.Point(1061, 562);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(116, 87);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -263,7 +272,7 @@ namespace Mail_kursovaya
             // 
             this.addtotextbox1.Location = new System.Drawing.Point(650, 154);
             this.addtotextbox1.Name = "addtotextbox1";
-            this.addtotextbox1.Size = new System.Drawing.Size(488, 224);
+            this.addtotextbox1.Size = new System.Drawing.Size(488, 270);
             this.addtotextbox1.TabIndex = 22;
             this.addtotextbox1.Text = "";
             // 
@@ -280,17 +289,43 @@ namespace Mail_kursovaya
             // 
             // richTextBox1
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(650, 439);
+            this.richTextBox1.Location = new System.Drawing.Point(650, 489);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.Size = new System.Drawing.Size(405, 142);
             this.richTextBox1.TabIndex = 24;
             this.richTextBox1.Text = "";
             // 
-            // справкаToolStripMenuItem
+            // label6
             // 
-            this.справкаToolStripMenuItem.Name = "справкаToolStripMenuItem";
-            this.справкаToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.справкаToolStripMenuItem.Text = "Справка";
+            this.label6.AutoSize = true;
+            this.label6.BackColor = System.Drawing.Color.Transparent;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label6.Location = new System.Drawing.Point(92, 549);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(304, 32);
+            this.label6.TabIndex = 25;
+            this.label6.Text = "Управление портами:";
+            // 
+            // OpenPortsButton
+            // 
+            this.OpenPortsButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.OpenPortsButton.Location = new System.Drawing.Point(115, 591);
+            this.OpenPortsButton.Name = "OpenPortsButton";
+            this.OpenPortsButton.Size = new System.Drawing.Size(115, 43);
+            this.OpenPortsButton.TabIndex = 26;
+            this.OpenPortsButton.Text = "Открыть";
+            this.OpenPortsButton.UseVisualStyleBackColor = true;
+            this.OpenPortsButton.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // ClosePortsButton
+            // 
+            this.ClosePortsButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ClosePortsButton.Location = new System.Drawing.Point(249, 591);
+            this.ClosePortsButton.Name = "ClosePortsButton";
+            this.ClosePortsButton.Size = new System.Drawing.Size(114, 43);
+            this.ClosePortsButton.TabIndex = 27;
+            this.ClosePortsButton.Text = "Закрыть";
+            this.ClosePortsButton.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -298,7 +333,10 @@ namespace Mail_kursovaya
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
-            this.ClientSize = new System.Drawing.Size(1177, 607);
+            this.ClientSize = new System.Drawing.Size(1177, 646);
+            this.Controls.Add(this.ClosePortsButton);
+            this.Controls.Add(this.OpenPortsButton);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.addtotextbox1);
@@ -358,6 +396,9 @@ namespace Mail_kursovaya
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.ToolStripMenuItem справкаToolStripMenuItem;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button OpenPortsButton;
+        private System.Windows.Forms.Button ClosePortsButton;
     }
 }
 
