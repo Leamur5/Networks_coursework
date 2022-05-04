@@ -38,18 +38,17 @@ namespace Mail_kursovaya
 
         public void Show_Outbox()
         {
-            using (CourseDBContainer db = new CourseDBContainer())
+            //using (CourseDBContainer db = new CourseDBContainer())
             {
-                dataGridView1.DataSource = db.outboxSet.ToList();
+                dataGridView1.DataSource = outboxTableAdapter1.GetData().ToList();
             }
-            dataGridView1.Columns[4].Visible = false;
+            dataGridView1.Columns[1].Visible = false;
             dataGridView1.Columns[6].Visible = false;
             dataGridView1.Columns[0].Width = 20;
-            dataGridView1.Columns[1].Width = 50;
+            dataGridView1.Columns[4].Width = 50;
             dataGridView1.Columns[2].Width = 50;
             dataGridView1.Columns[3].Width = 80;
             dataGridView1.Columns[5].Width = 190;
-            dataGridView1.Columns[7].Width = 90;
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
                 if (row.Cells[5].Value.ToString() == "Принято")
@@ -74,8 +73,8 @@ namespace Mail_kursovaya
             label5.Text = text;
         }
 
-        private delegate void UpdateDataGridDeleg(List<outbox> list);
-        public void UpdateDataGrid1(List<outbox> list)
+        private delegate void UpdateDataGridDeleg(List<CourseDB.outboxRow> list);
+        public void UpdateDataGrid1(List<CourseDB.outboxRow> list)
         {
             dataGridView1.DataSource = list;
             foreach (DataGridViewRow row in dataGridView1.Rows)
@@ -105,9 +104,9 @@ namespace Mail_kursovaya
                     form1.Outbox_update_mutex.ReleaseMutex();
 
                     BeginInvoke(new SetTextDeleg(setlabel4state), new object[] { "обновляется" });
-                    using (CourseDBContainer db = new CourseDBContainer())
+                    //using (CourseDBContainer db = new CourseDBContainer())
                     {
-                        BeginInvoke(new UpdateDataGridDeleg(UpdateDataGrid1), new object[] { db.outboxSet.ToList() });
+                        BeginInvoke(new UpdateDataGridDeleg(UpdateDataGrid1), new object[] { outboxTableAdapter1.GetData().ToList() });
                     }
                 }
                 else
@@ -156,11 +155,13 @@ namespace Mail_kursovaya
 
         private void Form3_Load(object sender, EventArgs e)
         {
+            // TODO: данная строка кода позволяет загрузить данные в таблицу "courseDB.outbox". При необходимости она может быть перемещена или удалена.
+            this.outboxTableAdapter1.Fill(this.courseDB.outbox);
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             Show_Outbox();
         }
 
-        private void Form3_FormClosing_1(object sender, FormClosingEventArgs e)
+        private void Form3_FormClosing(object sender, FormClosingEventArgs e)
         {
             UpdateThread_to_close = true;
             Thread.Sleep(2500);

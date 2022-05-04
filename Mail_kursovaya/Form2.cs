@@ -54,18 +54,17 @@ namespace Mail_kursovaya
         public void Show_Inbox()
         {
 
-            using (CourseDBContainer db = new CourseDBContainer())
-            {
-                dataGridView1.DataSource = db.inboxSet.ToList();
-            }
-            dataGridView1.Columns[4].Visible = false;
+            //using (CourseDBContainer db = new CourseDBContainer())
+            //{
+                dataGridView1.DataSource = inboxTableAdapter1.GetData().ToList();
+            //}
+            dataGridView1.Columns[1].Visible = false;
             dataGridView1.Columns[6].Visible = false;
             dataGridView1.Columns[0].Width = 20;
-            dataGridView1.Columns[1].Width = 50;
+            dataGridView1.Columns[4].Width = 50;
             dataGridView1.Columns[2].Width = 50;
             dataGridView1.Columns[3].Width = 80;
             dataGridView1.Columns[5].Width = 90;
-            dataGridView1.Columns[7].Width = 70;
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
                 if (row.Cells[5].Value.ToString() == "Принято")
@@ -85,6 +84,8 @@ namespace Mail_kursovaya
 
         private void Form2_Load(object sender, EventArgs e)
         {
+            // TODO: данная строка кода позволяет загрузить данные в таблицу "courseDB.inbox". При необходимости она может быть перемещена или удалена.
+            this.inboxTableAdapter1.Fill(this.courseDB.inbox);
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             Show_Inbox();
         }
@@ -94,8 +95,8 @@ namespace Mail_kursovaya
         {
             label4.Text = text;
         }
-        private delegate void UpdateDataGridDeleg(List<inbox> list);
-        public void UpdateDataGrid1(List<inbox> list)
+        private delegate void UpdateDataGridDeleg(List<CourseDB.inboxRow> list);
+        public void UpdateDataGrid1(List<CourseDB.inboxRow> list)
         {
             dataGridView1.DataSource = list;
             foreach (DataGridViewRow row in dataGridView1.Rows)
@@ -126,9 +127,9 @@ namespace Mail_kursovaya
 
 
                     BeginInvoke(new SetTextDeleg(setlabel4state), new object[] { "обновляется" });
-                    using (CourseDBContainer db = new CourseDBContainer())
+                    //using (CourseDBContainer db = new CourseDBContainer())
                     {
-                        BeginInvoke(new UpdateDataGridDeleg(UpdateDataGrid1), new object[] { db.inboxSet.ToList() });
+                        BeginInvoke(new UpdateDataGridDeleg(UpdateDataGrid1), new object[] { inboxTableAdapter1.GetData().ToList() });
                     }
                 }
                 else
@@ -211,14 +212,14 @@ namespace Mail_kursovaya
                             form1.TasksToSend.Add(new Form1.One_Task(Receiver_Port, frame));
                             form1.TaskToSend_mutex.ReleaseMutex();
 
-                            using (CourseDBContainer db = new CourseDBContainer())
+                            //using (CourseDBContainer db = new CourseDBContainer())
                             {
                                 var foreign_id_num = long.Parse(foreign_id_string);
-                                var result = db.inboxSet.SingleOrDefault(x => x.foreign_id == foreign_id_num);
+                                var result = inboxTableAdapter1.GetData().SingleOrDefault(x => x.foreign_id == foreign_id_num.ToString());
                                 if (result != null)
                                 {
                                     result.status = "Прочитано";
-                                    db.SaveChanges();
+                                    //db.SaveChanges();
                                     form1.Inbox_update_mutex.WaitOne();
                                     form1.Inbox_update_needed = true;
                                     form1.Inbox_update_mutex.ReleaseMutex();

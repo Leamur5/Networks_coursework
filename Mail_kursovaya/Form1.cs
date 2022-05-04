@@ -1295,7 +1295,7 @@ namespace Mail_kursovaya
                         long id_val = long.Parse(id_string);
                         var last_letter = outboxTableAdapter1.GetData().FirstOrDefault(x => x.Id == id_val);
                         last_letter.status = "Доставлено";
-                        db.SaveChanges();
+                        //db.SaveChanges();
                     }
                     Outbox_update_mutex.WaitOne();
                     Outbox_update_needed = true;
@@ -1321,9 +1321,9 @@ namespace Mail_kursovaya
                         DefaultFrame a = ParseReceivedFrame(LastFrameSenttoPort1.Frame);
                         string id_string = JsonConvert.DeserializeObject<outbox_class>(a.MessageData).id;
                         long id_val = long.Parse(id_string);
-                        var last_letter = db.outboxSet.FirstOrDefault<outbox>(x => x.Id == id_val);
+                        var last_letter = outboxTableAdapter1.GetData().FirstOrDefault(x => x.Id == id_val);
                         last_letter.status = "Не Доставлено";
-                        db.SaveChanges();
+                        //db.SaveChanges();
                     }
                     Outbox_update_mutex.WaitOne();
                     Outbox_update_needed = true;
@@ -1359,9 +1359,9 @@ namespace Mail_kursovaya
                         DefaultFrame a = ParseReceivedFrame(LastFrameSenttoPort2.Frame);
                         string id_string = JsonConvert.DeserializeObject<outbox_class>(a.MessageData).id;
                         long id_val = long.Parse(id_string);
-                        var last_letter = db.outboxSet.FirstOrDefault<outbox>(x => x.Id == id_val);
+                        var last_letter = outboxTableAdapter1.GetData().FirstOrDefault(x => x.Id == id_val);
                         last_letter.status = "Доставлено";
-                        db.SaveChanges();
+                        //db.SaveChanges();
                     }
                     Outbox_update_mutex.WaitOne();
                     Outbox_update_needed = true;
@@ -1388,9 +1388,9 @@ namespace Mail_kursovaya
                         DefaultFrame a = ParseReceivedFrame(LastFrameSenttoPort2.Frame);
                         string id_string = JsonConvert.DeserializeObject<outbox_class>(a.MessageData).id;
                         long id_val = long.Parse(id_string);
-                        var last_letter = db.outboxSet.FirstOrDefault<outbox>(x => x.Id == id_val);
+                        var last_letter = outboxTableAdapter1.GetData().FirstOrDefault(x => x.Id == id_val);
                         last_letter.status = "Не Доставлено";
-                        db.SaveChanges();
+                        //db.SaveChanges();
                     }
                     Outbox_update_mutex.WaitOne();
                     Outbox_update_needed = true;
@@ -1432,21 +1432,21 @@ namespace Mail_kursovaya
             }
             //using (CourseDBContainer db = new CourseDBContainer())
             {
-                outbox letter = new outbox();
+                outbox_class letter = new outbox_class();
                 letter.re = Re_string;
                 letter.sender = AuthData["local"];
                 letter.recepient = Receiver_name;
                 letter.status = "Отправлено";
                 letter.msg = Letter_Message;
-                db.outboxSet.Add(letter);
-                db.SaveChanges();
+                outboxTableAdapter1.Insert(letter.sender, letter.recepient, letter.re, letter.msg, letter.status, DateTime.Parse(letter.date_sent));
+                //db.SaveChanges();
             }
             long max;
-            outbox a;
+            CourseDB.outboxRow a;
             //using (CourseDBContainer db = new CourseDBContainer())
             {
-                max = db.outboxSet.Max(x => x.Id);
-                a = db.outboxSet.FirstOrDefault(x => x.Id == max);
+                max = outboxTableAdapter1.GetData().Max(x => x.Id);
+                a = outboxTableAdapter1.GetData().FirstOrDefault(x => x.Id == max);
             }
             string letter_local_id = a.Id.ToString();
             string receiver_port = AuthData.FirstOrDefault(x => x.Value == Receiver_name).Key;
