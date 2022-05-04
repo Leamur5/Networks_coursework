@@ -1173,26 +1173,26 @@ namespace Mail_kursovaya
             //После этого обновление таблицы принятых сообщений на ui (установкой Outbox_update_needed= true)   
             long LetterId = long.Parse(frame.MessageData);
             //using (CourseDB db = new CourseDB())
-            //{
-            //    var result = db.outbox.SingleOrDefault(x => x.id == LetterId);
-            //    if (result != null)
-            //    {
-            //        if (result.status == "Прочитано")
-            //        {
-            //            BeginInvoke(new SetTextDeleg(addtotextbox1), new object[] { $" Сообщение : письмо с id = {LetterId} уже было прочитано\r\n" });
-            //        }
-            //        else
-            //        {
-            //            BeginInvoke(new SetTextDeleg(addtotextbox1), new object[] { $" Сообщение : письмо с id = {LetterId} было прочитано\r\n" });
-            //            result.status = "Прочитано";
-            //            db.SaveChanges();
-            //            //Отметка для обновления формы отправленных сообщений
-            //            Outbox_update_mutex.WaitOne();
-            //            Outbox_update_needed = true;
-            //            Outbox_update_mutex.ReleaseMutex();
-            //        }
-            //    }
-            //}
+            {
+                var result = outboxTableAdapter1.GetData().SingleOrDefault(x => x.Id == LetterId);
+                if (result != null)
+                {
+                    if (result.status == "Прочитано")
+                    {
+                        BeginInvoke(new SetTextDeleg(addtotextbox1), new object[] { $" Сообщение : письмо с id = {LetterId} уже было прочитано\r\n" });
+                    }
+                    else
+                    {
+                        BeginInvoke(new SetTextDeleg(addtotextbox1), new object[] { $" Сообщение : письмо с id = {LetterId} было прочитано\r\n" });
+                        result.status = "Прочитано";
+                        outboxTableAdapter1.Update(result);
+                        //Отметка для обновления формы отправленных сообщений
+                        Outbox_update_mutex.WaitOne();
+                        Outbox_update_needed = true;
+                        Outbox_update_mutex.ReleaseMutex();
+                    }
+                }
+            }
         }
         //Готов
         public void FrameReceivedInformation(DefaultFrame local_frame)
@@ -1297,6 +1297,7 @@ namespace Mail_kursovaya
                         long id_val = long.Parse(id_string);
                         var last_letter = outboxTableAdapter1.GetData().FirstOrDefault(x => x.Id == id_val);
                         last_letter.status = "Доставлено";
+                        outboxTableAdapter1.Update(last_letter);
                         //db.SaveChanges();
                     }
                     Outbox_update_mutex.WaitOne();
@@ -1325,6 +1326,7 @@ namespace Mail_kursovaya
                         long id_val = long.Parse(id_string);
                         var last_letter = outboxTableAdapter1.GetData().FirstOrDefault(x => x.Id == id_val);
                         last_letter.status = "Не Доставлено";
+                        outboxTableAdapter1.Update(last_letter);
                         //db.SaveChanges();
                     }
                     Outbox_update_mutex.WaitOne();
@@ -1363,6 +1365,7 @@ namespace Mail_kursovaya
                         long id_val = long.Parse(id_string);
                         var last_letter = outboxTableAdapter1.GetData().FirstOrDefault(x => x.Id == id_val);
                         last_letter.status = "Доставлено";
+                        outboxTableAdapter1.Update(last_letter);
                         //db.SaveChanges();
                     }
                     Outbox_update_mutex.WaitOne();
@@ -1392,6 +1395,7 @@ namespace Mail_kursovaya
                         long id_val = long.Parse(id_string);
                         var last_letter = outboxTableAdapter1.GetData().FirstOrDefault(x => x.Id == id_val);
                         last_letter.status = "Не Доставлено";
+                        outboxTableAdapter1.Update(last_letter);
                         //db.SaveChanges();
                     }
                     Outbox_update_mutex.WaitOne();
@@ -1406,7 +1410,17 @@ namespace Mail_kursovaya
         public void SendNewLetterButton_Click(object sender, EventArgs e)
         {
             string Re_string = ReTextbox.Text;
-            string Receiver_name = ReceiverComboBox.SelectedItem.ToString();
+            string Receiver_name;
+            try
+            {
+                Receiver_name = ReceiverComboBox.SelectedItem.ToString();
+                
+            }
+            catch
+            {
+                MessageBox.Show("Выберите кому послать письмо");
+                return;
+            }
             string Letter_Message = LetterTextBox.Text;
 
             Phys_status1_mutex.WaitOne();

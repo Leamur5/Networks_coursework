@@ -183,6 +183,7 @@ namespace Mail_kursovaya
                 catch (Exception ex)
                 {
                     foreign_id_exists = false;
+                    
                 }
                 if (foreign_id_exists)
                 {
@@ -215,6 +216,7 @@ namespace Mail_kursovaya
                                 if (result != null)
                                 {
                                     result.status = "Прочитано";
+                                    inboxTableAdapter1.Update(result);
                                     //db.SaveChanges();
                                     form1.Inbox_update_mutex.WaitOne();
                                     form1.Inbox_update_needed = true;
