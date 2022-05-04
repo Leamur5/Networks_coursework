@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="CourseDB" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+  <EntityContainer Name="CourseDBContainer" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="inboxSet" EntityType="CourseDB.inbox" />
+    <EntitySet Name="outboxSet" EntityType="CourseDB.outbox" />
+  </EntityContainer>
+  <EntityType Name="inbox">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="sender" Type="String" Nullable="false" />
+    <Property Name="recepient" Type="String" Nullable="false" />
+    <Property Name="re" Type="String" Nullable="true" />
+    <Property Name="msg" Type="String" Nullable="true" />
+    <Property Name="status" Type="String" Nullable="false" />
+    <Property Name="date_received" Type="DateTime" Nullable="true" />
+    <Property Name="foreign_id" Type="Int32" Nullable="false" ConcurrencyMode="None" />
+  </EntityType>
+  <EntityType Name="outbox">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="sender" Type="String" Nullable="false" />
+    <Property Name="recepient" Type="String" Nullable="false" />
+    <Property Name="re" Type="String" Nullable="true" />
+    <Property Name="msg" Type="String" Nullable="true" />
+    <Property Name="status" Type="String" Nullable="false" />
+    <Property Name="date_sent" Type="DateTime" Nullable="true" />
+  </EntityType>
+</Schema>

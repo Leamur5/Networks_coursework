@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CourseDB.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="CourseDBStoreContainer">
+    <EntitySet Name="inboxSet" EntityType="CourseDB.Store.inboxSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="outboxSet" EntityType="CourseDB.Store.outboxSet" store:Type="Tables" Schema="dbo" />
+  </EntityContainer>
+  <EntityType Name="inboxSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="sender" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="recepient" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="re" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="msg" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="status" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="date_received" Type="datetime" Nullable="true" />
+    <Property Name="foreign_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="outboxSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="sender" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="recepient" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="re" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="msg" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="status" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="date_sent" Type="datetime" Nullable="true" />
+  </EntityType>
+</Schema>
