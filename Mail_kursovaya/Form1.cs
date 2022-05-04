@@ -16,25 +16,25 @@ namespace Mail_kursovaya
     public partial class Form1 : Form
     {
 
-        private void label4_Click(object sender, EventArgs e)
-        {
+        //private void label4_Click(object sender, EventArgs e)
+        //{
 
-        }
+        //}
 
         private void Form1_Load(object sender, EventArgs e)
         {
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
         }
 
-        private void скоростьToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+        //private void скоростьToolStripMenuItem_Click(object sender, EventArgs e)
+        //{
 
-        }
+        //}
 
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
+        //private void pictureBox1_Click(object sender, EventArgs e)
+        //{
             
-        }
+        //}
 
         private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
@@ -45,7 +45,7 @@ namespace Mail_kursovaya
         public SerialPort serialPort1 = new SerialPort();
         public SerialPort serialPort2 = new SerialPort();
 
-        public bool DEBUG_MODE = false;
+        public bool DEBUG_MODE = true;
         public bool RET_ALLOWED = false;
 
         // Использется для передачи байтов по компорту
@@ -543,7 +543,7 @@ namespace Mail_kursovaya
             serialPort1.Parity = Parity.None;
             serialPort1.StopBits = StopBits.One;
             serialPort1.Handshake = Handshake.RequestToSend;
-            serialPort1.PortName = "COM3";
+            serialPort1.PortName = "COM2";
 
             serialPort2.Encoding = WIN1251;
             serialPort2.BaudRate = 9600;
@@ -552,19 +552,21 @@ namespace Mail_kursovaya
             serialPort2.StopBits = StopBits.One;
             serialPort2.Handshake = Handshake.RequestToSend;
 
-            serialPort2.PortName = "COM6";
+            serialPort2.PortName = "COM5";
+            toolStripComboBox3.Items.Add("9600");
             toolStripComboBox3.SelectedItem = "9600";
             SelectedBaudrate = "9600";
             toolStripComboBox1.Items.AddRange(SerialPort.GetPortNames());
             toolStripComboBox2.Items.AddRange(SerialPort.GetPortNames());
+           
             //Port1 
-            toolStripComboBox1.SelectedItem = "COM3";
+            toolStripComboBox1.SelectedItem = "COM2";
 
-            SelectedPort1Name = "COM3";
+            SelectedPort1Name = "COM2";
 
             //Port2
-            toolStripComboBox2.SelectedItem = "COM6";
-            SelectedPort2Name = "COM6";
+            toolStripComboBox2.SelectedItem = "COM5";
+            SelectedPort2Name = "COM5";
             this.OpenPortsButton.Enabled = true;
             this.ClosePortsButton.Enabled = false;
             this.AuthConnectButton.Enabled = true;
@@ -1224,7 +1226,7 @@ namespace Mail_kursovaya
                 { letter_already_exists = false; }
                 if (!letter_already_exists)
                 {
-                    inboxTableAdapter1.Insert(received_letter.sender, received_letter.recepient, received_letter.re, received_letter.msg, received_letter.status,DateTime.Parse(received_letter.date_received), received_letter.foreign_id);
+                    inboxTableAdapter1.Insert(received_letter.sender, received_letter.recepient, received_letter.re, received_letter.msg, received_letter.status,DateTime.Now, received_letter.foreign_id);
                         
                 }
                     //inboxTableAdapter1.Dispose();
@@ -1438,6 +1440,7 @@ namespace Mail_kursovaya
                 letter.recepient = Receiver_name;
                 letter.status = "Отправлено";
                 letter.msg = Letter_Message;
+                letter.date_sent = DateTime.Now.ToString();
                 outboxTableAdapter1.Insert(letter.sender, letter.recepient, letter.re, letter.msg, letter.status, DateTime.Parse(letter.date_sent));
                 //db.SaveChanges();
             }

@@ -17,25 +17,20 @@ namespace Mail_kursovaya
 {
     public partial class Form2 : Form
     {
-        public Form2()
-        {
-            InitializeComponent();
-        }
+        //public Form2()
+        //{
+        //    InitializeComponent();
+        //}
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
+        //private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        //{
 
-        }
+        //}
 
-        private void AuthConnectButton_Click(object sender, EventArgs e)
-        {
+        //private void pictureBox1_Click(object sender, EventArgs e)
+        //{
 
-        }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-
-        }
+        //}
         public Form1 form1;
 
         public bool UpdateThread_to_close = false;
@@ -58,21 +53,21 @@ namespace Mail_kursovaya
             //{
                 dataGridView1.DataSource = inboxTableAdapter1.GetData().ToList();
             //}
-            dataGridView1.Columns[1].Visible = false;
-            dataGridView1.Columns[6].Visible = false;
-            dataGridView1.Columns[0].Width = 20;
-            dataGridView1.Columns[4].Width = 50;
-            dataGridView1.Columns[2].Width = 50;
-            dataGridView1.Columns[3].Width = 80;
-            dataGridView1.Columns[5].Width = 90;
+            //dataGridView1.Columns[1].Visible = false;
+            //dataGridView1.Columns[6].Visible = false;
+            //dataGridView1.Columns[0].Width = 20;
+            //dataGridView1.Columns[4].Width = 50;
+            //dataGridView1.Columns[2].Width = 50;
+            //dataGridView1.Columns[3].Width = 80;
+            //dataGridView1.Columns[5].Width = 90;
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
-                if (row.Cells[5].Value.ToString() == "Принято")
+                if (row.Cells[4].Value.ToString() == "Принято")
                 {
                     row.DefaultCellStyle.BackColor = Color.AliceBlue;
 
                 }
-                if (row.Cells[5].Value.ToString() == "Прочитано")
+                if (row.Cells[4].Value.ToString() == "Прочитано")
                 {
                     row.DefaultCellStyle.BackColor = Color.LightCyan;
                 }
@@ -85,7 +80,8 @@ namespace Mail_kursovaya
         private void Form2_Load(object sender, EventArgs e)
         {
             // TODO: данная строка кода позволяет загрузить данные в таблицу "courseDB.inbox". При необходимости она может быть перемещена или удалена.
-            this.inboxTableAdapter1.Fill(this.courseDB.inbox);
+            try { this.inboxTableAdapter1.Fill(this.courseDB.inbox); }
+            catch { }
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             Show_Inbox();
         }
@@ -93,7 +89,7 @@ namespace Mail_kursovaya
         private delegate void SetTextDeleg(string text);
         public void setlabel4state(string text)
         {
-            label4.Text = text;
+            FormStatusLabel.Text = text;
         }
         private delegate void UpdateDataGridDeleg(List<CourseDB.inboxRow> list);
         public void UpdateDataGrid1(List<CourseDB.inboxRow> list)
@@ -101,12 +97,12 @@ namespace Mail_kursovaya
             dataGridView1.DataSource = list;
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
-                if (row.Cells[5].Value.ToString() == "Принято")
+                if (row.Cells[4].Value.ToString() == "Принято")
                 {
                     row.DefaultCellStyle.BackColor = Color.AliceBlue;
 
                 }
-                if (row.Cells[5].Value.ToString() == "Прочитано")
+                if (row.Cells[4].Value.ToString() == "Прочитано")
                 {
                     row.DefaultCellStyle.BackColor = Color.LightCyan;
                 }
@@ -125,12 +121,12 @@ namespace Mail_kursovaya
                     form1.Inbox_update_needed = false;
                     form1.Inbox_update_mutex.ReleaseMutex();
 
-
-                    BeginInvoke(new SetTextDeleg(setlabel4state), new object[] { "обновляется" });
-                    //using (CourseDBContainer db = new CourseDBContainer())
-                    {
+                    
+                    try { BeginInvoke(new SetTextDeleg(setlabel4state), new object[] { "обновляется" });
                         BeginInvoke(new UpdateDataGridDeleg(UpdateDataGrid1), new object[] { inboxTableAdapter1.GetData().ToList() });
                     }
+                    catch { }
+
                 }
                 else
                 {
@@ -166,7 +162,7 @@ namespace Mail_kursovaya
                 try { StatusTextBox.Text = row.Cells[4].Value.ToString(); }
                 catch (Exception ex) { TimeTextBox.Text = ""; }
 
-                try { LetterTextBox.Text = row.Cells[7].Value.ToString(); }
+                try { LetterTextBox.Text = row.Cells[6].Value.ToString(); }
                 catch (Exception ex) { LetterTextBox.Text = ""; }
                 try
                 { TimeTextBox.Text = row.Cells[5].Value.ToString(); }
@@ -179,9 +175,9 @@ namespace Mail_kursovaya
                 string status_string = "";
                 try
                 {
-                    foreign_id_string = row.Cells[6].Value.ToString();
+                    foreign_id_string = row.Cells[7].Value.ToString();
                     sender_string = row.Cells[1].Value.ToString();
-                    status_string = row.Cells[5].Value.ToString();
+                    status_string = row.Cells[4].Value.ToString();
                     foreign_id_exists = true;
                 }
                 catch (Exception ex)
@@ -206,7 +202,7 @@ namespace Mail_kursovaya
                             //Конвертирование из utf-8 в win1251 уже предусмотрено в функции
                             byte[] frame = form1.CreateNewFrame(Form1.FrameType.OPENLETTER, "0", len.ToString(), "0", foreign_id_string, false);
 
-                            Form1.One_Task openletterframe = new Form1.One_Task();
+                            //Form1.One_Task openletterframe = new Form1.One_Task();
 
                             form1.TaskToSend_mutex.WaitOne();
                             form1.TasksToSend.Add(new Form1.One_Task(Receiver_Port, frame));

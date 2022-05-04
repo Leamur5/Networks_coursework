@@ -33,6 +33,7 @@ namespace Mail_kursovaya
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form2));
             this.label1 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.inboxBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.label2 = new System.Windows.Forms.Label();
             this.ReTextBox = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -49,9 +50,10 @@ namespace Mail_kursovaya
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.button2 = new System.Windows.Forms.Button();
             this.inboxTableAdapter1 = new Mail_kursovaya.CourseDBTableAdapters.inboxTableAdapter();
-            this.courseDB = new Mail_kursovaya.CourseDB();
+            this.FormStatusLabel = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
             this.courseDBBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.inboxBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.courseDB = new Mail_kursovaya.CourseDB();
             this.Номер = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Отправитель = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Получатель = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -59,12 +61,13 @@ namespace Mail_kursovaya
             this.Статус = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Время_получения = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Письмо = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.foreign_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.inboxBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.courseDB)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.courseDBBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.inboxBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.courseDB)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -91,7 +94,8 @@ namespace Mail_kursovaya
             this.Тема,
             this.Статус,
             this.Время_получения,
-            this.Письмо});
+            this.Письмо,
+            this.foreign_id});
             this.dataGridView1.DataSource = this.inboxBindingSource;
             this.dataGridView1.Location = new System.Drawing.Point(105, 71);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -101,7 +105,12 @@ namespace Mail_kursovaya
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.Size = new System.Drawing.Size(1321, 282);
             this.dataGridView1.TabIndex = 3;
-            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
+            // 
+            // inboxBindingSource
+            // 
+            this.inboxBindingSource.DataMember = "inbox";
+            this.inboxBindingSource.DataSource = this.courseDBBindingSource;
             // 
             // label2
             // 
@@ -223,7 +232,6 @@ namespace Mail_kursovaya
             this.AuthConnectButton.Text = "Ответить";
             this.AuthConnectButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.AuthConnectButton.UseVisualStyleBackColor = true;
-            this.AuthConnectButton.Click += new System.EventHandler(this.AuthConnectButton_Click);
             // 
             // pictureBox1
             // 
@@ -236,7 +244,6 @@ namespace Mail_kursovaya
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 17;
             this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // pictureBox2
             // 
@@ -268,20 +275,33 @@ namespace Mail_kursovaya
             // 
             this.inboxTableAdapter1.ClearBeforeFill = true;
             // 
-            // courseDB
+            // FormStatusLabel
             // 
-            this.courseDB.DataSetName = "CourseDB";
-            this.courseDB.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            this.FormStatusLabel.AutoSize = true;
+            this.FormStatusLabel.Location = new System.Drawing.Point(1294, 24);
+            this.FormStatusLabel.Name = "FormStatusLabel";
+            this.FormStatusLabel.Size = new System.Drawing.Size(132, 20);
+            this.FormStatusLabel.TabIndex = 38;
+            this.FormStatusLabel.Text = "FormStatusLabel";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(1163, 23);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(125, 20);
+            this.label8.TabIndex = 37;
+            this.label8.Text = "Статус формы:";
             // 
             // courseDBBindingSource
             // 
             this.courseDBBindingSource.DataSource = this.courseDB;
             this.courseDBBindingSource.Position = 0;
             // 
-            // inboxBindingSource
+            // courseDB
             // 
-            this.inboxBindingSource.DataMember = "inbox";
-            this.inboxBindingSource.DataSource = this.courseDBBindingSource;
+            this.courseDB.DataSetName = "CourseDB";
+            this.courseDB.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // Номер
             // 
@@ -346,12 +366,24 @@ namespace Mail_kursovaya
             this.Письмо.ReadOnly = true;
             this.Письмо.Width = 125;
             // 
+            // foreign_id
+            // 
+            this.foreign_id.DataPropertyName = "foreign_id";
+            this.foreign_id.HeaderText = "foreign_id";
+            this.foreign_id.MinimumWidth = 8;
+            this.foreign_id.Name = "foreign_id";
+            this.foreign_id.ReadOnly = true;
+            this.foreign_id.Visible = false;
+            this.foreign_id.Width = 150;
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(1536, 1050);
+            this.Controls.Add(this.FormStatusLabel);
+            this.Controls.Add(this.label8);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.pictureBox1);
@@ -373,14 +405,15 @@ namespace Mail_kursovaya
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "Form2";
             this.Text = "Входящие";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form2_FormClosing);
             this.Load += new System.EventHandler(this.Form2_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.inboxBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.courseDB)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.courseDBBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.inboxBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.courseDB)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -409,6 +442,8 @@ namespace Mail_kursovaya
         private System.Windows.Forms.BindingSource courseDBBindingSource;
         private CourseDB courseDB;
         private System.Windows.Forms.BindingSource inboxBindingSource;
+        private System.Windows.Forms.Label FormStatusLabel;
+        private System.Windows.Forms.Label label8;
         private System.Windows.Forms.DataGridViewTextBoxColumn Номер;
         private System.Windows.Forms.DataGridViewTextBoxColumn Отправитель;
         private System.Windows.Forms.DataGridViewTextBoxColumn Получатель;
@@ -416,5 +451,6 @@ namespace Mail_kursovaya
         private System.Windows.Forms.DataGridViewTextBoxColumn Статус;
         private System.Windows.Forms.DataGridViewTextBoxColumn Время_получения;
         private System.Windows.Forms.DataGridViewTextBoxColumn Письмо;
+        private System.Windows.Forms.DataGridViewTextBoxColumn foreign_id;
     }
 }

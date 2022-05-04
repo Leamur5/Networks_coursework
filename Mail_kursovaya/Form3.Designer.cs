@@ -32,6 +32,8 @@ namespace Mail_kursovaya
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form3));
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.outboxBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.courseDB = new Mail_kursovaya.CourseDB();
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.button2 = new System.Windows.Forms.Button();
@@ -47,8 +49,8 @@ namespace Mail_kursovaya
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.outboxTableAdapter1 = new Mail_kursovaya.CourseDBTableAdapters.outboxTableAdapter();
-            this.courseDB = new Mail_kursovaya.CourseDB();
-            this.outboxBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.label8 = new System.Windows.Forms.Label();
+            this.FormStatusLabel = new System.Windows.Forms.Label();
             this.Номер = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Отправитель = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Получатель = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -57,9 +59,9 @@ namespace Mail_kursovaya
             this.Время_получения = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Письмо = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.courseDB)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.outboxBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.courseDB)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridView1
@@ -86,6 +88,17 @@ namespace Mail_kursovaya
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.Size = new System.Drawing.Size(1321, 282);
             this.dataGridView1.TabIndex = 5;
+            this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
+            // 
+            // outboxBindingSource
+            // 
+            this.outboxBindingSource.DataMember = "outbox";
+            this.outboxBindingSource.DataSource = this.courseDB;
+            // 
+            // courseDB
+            // 
+            this.courseDB.DataSetName = "CourseDB";
+            this.courseDB.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // label1
             // 
@@ -235,15 +248,23 @@ namespace Mail_kursovaya
             // 
             this.outboxTableAdapter1.ClearBeforeFill = true;
             // 
-            // courseDB
+            // label8
             // 
-            this.courseDB.DataSetName = "CourseDB";
-            this.courseDB.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(1030, 46);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(125, 20);
+            this.label8.TabIndex = 35;
+            this.label8.Text = "Статус формы:";
             // 
-            // outboxBindingSource
+            // FormStatusLabel
             // 
-            this.outboxBindingSource.DataMember = "outbox";
-            this.outboxBindingSource.DataSource = this.courseDB;
+            this.FormStatusLabel.AutoSize = true;
+            this.FormStatusLabel.Location = new System.Drawing.Point(1161, 47);
+            this.FormStatusLabel.Name = "FormStatusLabel";
+            this.FormStatusLabel.Size = new System.Drawing.Size(132, 20);
+            this.FormStatusLabel.TabIndex = 36;
+            this.FormStatusLabel.Text = "FormStatusLabel";
             // 
             // Номер
             // 
@@ -314,6 +335,8 @@ namespace Mail_kursovaya
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(1478, 1039);
+            this.Controls.Add(this.FormStatusLabel);
+            this.Controls.Add(this.label8);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.label7);
@@ -332,12 +355,13 @@ namespace Mail_kursovaya
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "Form3";
             this.Text = "Form3";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form3_FormClosing);
             this.Load += new System.EventHandler(this.Form3_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.courseDB)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.outboxBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.courseDB)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -363,6 +387,8 @@ namespace Mail_kursovaya
         private CourseDBTableAdapters.outboxTableAdapter outboxTableAdapter1;
         private CourseDB courseDB;
         private System.Windows.Forms.BindingSource outboxBindingSource;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label FormStatusLabel;
         private System.Windows.Forms.DataGridViewTextBoxColumn Номер;
         private System.Windows.Forms.DataGridViewTextBoxColumn Отправитель;
         private System.Windows.Forms.DataGridViewTextBoxColumn Получатель;

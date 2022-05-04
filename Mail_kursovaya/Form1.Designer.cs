@@ -78,6 +78,7 @@ namespace Mail_kursovaya
             this.SendNewLetterButton.TabIndex = 0;
             this.SendNewLetterButton.Text = "Отправить";
             this.SendNewLetterButton.UseVisualStyleBackColor = true;
+            this.SendNewLetterButton.Click += new System.EventHandler(this.SendNewLetterButton_Click);
             // 
             // label1
             // 
@@ -148,7 +149,6 @@ namespace Mail_kursovaya
             this.label4.Size = new System.Drawing.Size(166, 29);
             this.label4.TabIndex = 7;
             this.label4.Text = "Авторизация";
-            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // label5
             // 
@@ -179,6 +179,7 @@ namespace Mail_kursovaya
             this.AuthConnectButton.TabIndex = 10;
             this.AuthConnectButton.Text = "Войти";
             this.AuthConnectButton.UseVisualStyleBackColor = true;
+            this.AuthConnectButton.Click += new System.EventHandler(this.AuthConnectButton_Click);
             // 
             // AuthDisconnectButton
             // 
@@ -190,6 +191,7 @@ namespace Mail_kursovaya
             this.AuthDisconnectButton.TabIndex = 11;
             this.AuthDisconnectButton.Text = "Выйти";
             this.AuthDisconnectButton.UseVisualStyleBackColor = true;
+            this.AuthDisconnectButton.Click += new System.EventHandler(this.AuthDisconnectButton_click);
             // 
             // label7
             // 
@@ -264,6 +266,7 @@ namespace Mail_kursovaya
             // 
             this.toolStripComboBox3.Name = "toolStripComboBox3";
             this.toolStripComboBox3.Size = new System.Drawing.Size(121, 33);
+            this.toolStripComboBox3.SelectedIndexChanged += new System.EventHandler(this.toolStripComboBox3_SelectedIndexChanged);
             // 
             // порт1ToolStripMenuItem
             // 
@@ -277,6 +280,7 @@ namespace Mail_kursovaya
             // 
             this.toolStripComboBox1.Name = "toolStripComboBox1";
             this.toolStripComboBox1.Size = new System.Drawing.Size(121, 33);
+            this.toolStripComboBox1.SelectedIndexChanged += new System.EventHandler(this.toolStripComboBox1_SelectedIndexChanged);
             // 
             // порт2ToolStripMenuItem
             // 
@@ -290,6 +294,7 @@ namespace Mail_kursovaya
             // 
             this.toolStripComboBox2.Name = "toolStripComboBox2";
             this.toolStripComboBox2.Size = new System.Drawing.Size(121, 33);
+            this.toolStripComboBox2.SelectedIndexChanged += new System.EventHandler(this.toolStripComboBox2_SelectedIndexChanged);
             // 
             // справкаToolStripMenuItem
             // 
@@ -308,7 +313,6 @@ namespace Mail_kursovaya
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 21;
             this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // label10
             // 
@@ -415,6 +419,7 @@ namespace Mail_kursovaya
             this.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.Name = "Form1";
             this.Text = "IU5 Mailru";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

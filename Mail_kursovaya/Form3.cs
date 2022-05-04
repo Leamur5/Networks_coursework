@@ -42,13 +42,13 @@ namespace Mail_kursovaya
             {
                 dataGridView1.DataSource = outboxTableAdapter1.GetData().ToList();
             }
-            dataGridView1.Columns[1].Visible = false;
-            dataGridView1.Columns[6].Visible = false;
-            dataGridView1.Columns[0].Width = 20;
-            dataGridView1.Columns[4].Width = 50;
-            dataGridView1.Columns[2].Width = 50;
-            dataGridView1.Columns[3].Width = 80;
-            dataGridView1.Columns[5].Width = 190;
+            //dataGridView1.Columns[1].Visible = false;
+            //dataGridView1.Columns[6].Visible = false;
+            //dataGridView1.Columns[0].Width = 20;
+            //dataGridView1.Columns[4].Width = 50;
+            //dataGridView1.Columns[2].Width = 50;
+            //dataGridView1.Columns[3].Width = 80;
+            //dataGridView1.Columns[5].Width = 190;
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
                 if (row.Cells[5].Value.ToString() == "Принято")
@@ -70,7 +70,7 @@ namespace Mail_kursovaya
         private delegate void SetTextDeleg(string text);
         public void setlabel4state(string text)
         {
-            label5.Text = text;
+            FormStatusLabel.Text = text;
         }
 
         private delegate void UpdateDataGridDeleg(List<CourseDB.outboxRow> list);
@@ -143,7 +143,7 @@ namespace Mail_kursovaya
                 try { StatusTextBox.Text = row.Cells[4].Value.ToString(); }
                 catch (Exception ex) { TimeTextBox.Text = ""; }
 
-                try { LetterTextBox.Text = row.Cells[7].Value.ToString(); }
+                try { LetterTextBox.Text = row.Cells[6].Value.ToString(); }
                 catch (Exception ex) { LetterTextBox.Text = ""; }
                 try
                 { TimeTextBox.Text = row.Cells[5].Value.ToString(); }
