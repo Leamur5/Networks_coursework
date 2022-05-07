@@ -51,7 +51,30 @@ namespace Mail_kursovaya
 
             //using (CourseDBContainer db = new CourseDBContainer())
             //{
+            try 
+            { 
                 dataGridView1.DataSource = inboxTableAdapter1.GetData().ToList();
+                foreach (DataGridViewRow row in dataGridView1.Rows)
+                {
+                    if (row.Cells[4].Value.ToString() == "Принято")
+                    {
+                        row.DefaultCellStyle.BackColor = Color.AliceBlue;
+
+                    }
+                    if (row.Cells[4].Value.ToString() == "Прочитано")
+                    {
+                        row.DefaultCellStyle.BackColor = Color.LightCyan;
+                    }
+                }
+                dataGridView1.Update();
+                dataGridView1.Refresh();
+            }
+            catch
+            {
+
+            }
+            
+
             //}
             //dataGridView1.Columns[1].Visible = false;
             //dataGridView1.Columns[6].Visible = false;
@@ -60,29 +83,17 @@ namespace Mail_kursovaya
             //dataGridView1.Columns[2].Width = 50;
             //dataGridView1.Columns[3].Width = 80;
             //dataGridView1.Columns[5].Width = 90;
-            foreach (DataGridViewRow row in dataGridView1.Rows)
-            {
-                if (row.Cells[4].Value.ToString() == "Принято")
-                {
-                    row.DefaultCellStyle.BackColor = Color.AliceBlue;
-
-                }
-                if (row.Cells[4].Value.ToString() == "Прочитано")
-                {
-                    row.DefaultCellStyle.BackColor = Color.LightCyan;
-                }
-            }
-            dataGridView1.Update();
-            dataGridView1.Refresh();
+            
 
         }
 
         private void Form2_Load(object sender, EventArgs e)
         {
             // TODO: данная строка кода позволяет загрузить данные в таблицу "courseDB.inbox". При необходимости она может быть перемещена или удалена.
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             try { this.inboxTableAdapter1.Fill(this.courseDB.inbox); }
             catch { }
-            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            
             Show_Inbox();
         }
 
@@ -239,6 +250,36 @@ namespace Mail_kursovaya
         {
             UpdateThread_to_close = true;
             Thread.Sleep(2500);
+        }
+
+        private void ReplyConnectButton_Click(object sender, EventArgs e)
+        {
+            if (ReTextBox.Text == "" || LetterTextBox.Text == "" || SenderTextBox.Text == "")
+            {
+                MessageBox.Show("Выберите сначала письмо");
+            }
+            else
+            {
+                this.form1.ReTextbox.Text = "RE: " + this.ReTextBox.Text;
+                this.form1.LetterTextBox.Text = "Ответ на:\r\n" + this.LetterTextBox.Text + "\r\n------------------------------\r\n";
+                this.form1.ReceiverComboBox.SelectedItem = SenderTextBox.Text;
+                this.Close();
+            }
+                
+        }
+
+        private void ResendButton_Click(object sender, EventArgs e)
+        {
+            if (ReTextBox.Text == "" || LetterTextBox.Text == "" || SenderTextBox.Text == "")
+            {
+                MessageBox.Show("Выберите сначала письмо");
+            }
+            else
+            {
+                this.form1.ReTextbox.Text = "FWD: " + this.ReTextBox.Text;
+                this.form1.LetterTextBox.Text = "Пересылаю:\r\n" + this.LetterTextBox.Text + "\r\n------------------------------\r\n";
+                this.Close();
+            }
         }
     }
 }

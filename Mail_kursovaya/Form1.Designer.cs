@@ -207,7 +207,6 @@ namespace Mail_kursovaya
             // menuStrip1
             // 
             this.menuStrip1.BackColor = System.Drawing.Color.Transparent;
-            this.menuStrip1.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.сообщенияToolStripMenuItem,
@@ -259,7 +258,7 @@ namespace Mail_kursovaya
             this.скоростьToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripComboBox3});
             this.скоростьToolStripMenuItem.Name = "скоростьToolStripMenuItem";
-            this.скоростьToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.скоростьToolStripMenuItem.Size = new System.Drawing.Size(191, 34);
             this.скоростьToolStripMenuItem.Text = "Скорость";
             // 
             // toolStripComboBox3
@@ -273,7 +272,7 @@ namespace Mail_kursovaya
             this.порт1ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripComboBox1});
             this.порт1ToolStripMenuItem.Name = "порт1ToolStripMenuItem";
-            this.порт1ToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.порт1ToolStripMenuItem.Size = new System.Drawing.Size(191, 34);
             this.порт1ToolStripMenuItem.Text = "Порт 1";
             // 
             // toolStripComboBox1
@@ -287,7 +286,7 @@ namespace Mail_kursovaya
             this.порт2ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripComboBox2});
             this.порт2ToolStripMenuItem.Name = "порт2ToolStripMenuItem";
-            this.порт2ToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.порт2ToolStripMenuItem.Size = new System.Drawing.Size(191, 34);
             this.порт2ToolStripMenuItem.Text = "Порт 2";
             // 
             // toolStripComboBox2
@@ -299,7 +298,7 @@ namespace Mail_kursovaya
             // справкаToolStripMenuItem
             // 
             this.справкаToolStripMenuItem.Name = "справкаToolStripMenuItem";
-            this.справкаToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.справкаToolStripMenuItem.Size = new System.Drawing.Size(191, 34);
             this.справкаToolStripMenuItem.Text = "Справка";
             this.справкаToolStripMenuItem.Click += new System.EventHandler(this.справкаToolStripMenuItem_Click);
             // 
@@ -436,9 +435,6 @@ namespace Mail_kursovaya
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox ReTextbox;
-        private System.Windows.Forms.RichTextBox LetterTextBox;
-        private System.Windows.Forms.ComboBox ReceiverComboBox;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox LoginTextBox;
@@ -466,6 +462,9 @@ namespace Mail_kursovaya
         private System.Windows.Forms.ToolStripComboBox toolStripComboBox3;
         private CourseDBTableAdapters.inboxTableAdapter inboxTableAdapter1;
         private CourseDBTableAdapters.outboxTableAdapter outboxTableAdapter1;
+        public System.Windows.Forms.TextBox ReTextbox;
+        public System.Windows.Forms.RichTextBox LetterTextBox;
+        public System.Windows.Forms.ComboBox ReceiverComboBox;
     }
 }
 

@@ -166,6 +166,21 @@ namespace Mail_kursovaya
             UpdateThread_to_close = true;
             Thread.Sleep(2500);
         }
+
+        private void ResendButton_Click(object sender, EventArgs e)
+        {
+            if (ReTextBox.Text == "" || LetterTextBox.Text == "" || SenderTextBox.Text == "")
+            {
+                MessageBox.Show("Выберите сначала письмо");
+            }
+            else
+            {
+                this.form1.ReTextbox.Text = "FWD: " + this.ReTextBox.Text;
+                this.form1.LetterTextBox.Text = "Пересылаю:\r\n" + this.LetterTextBox.Text + "\r\n------------------------------\r\n";
+                this.Close();
+            }
+            
+        }
     }
 }
 
