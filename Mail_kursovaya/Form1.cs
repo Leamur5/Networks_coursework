@@ -428,12 +428,17 @@ namespace Mail_kursovaya
 
             //Тут добавить Хемминга
             List<byte> framebytes_encoded = new List<byte>();
-            foreach(byte part in framebytes)
+            foreach (byte part in framebytes)
             {
-                var temp = HammingCode(part);
-                framebytes_encoded.Add(temp[1]);
-                framebytes_encoded.Add(temp[0]);
+                if (part == 0xFF || part == 0xFE) { framebytes_encoded.Add(part); }
+                else {
+                    var temp = HammingCode(part);
+                    framebytes_encoded.Add(temp[1]);
+                    framebytes_encoded.Add(temp[0]);
+                }
+                
             }
+            //MessageBox.Show(HammingCode(0x6F)[1].ToString() + " " + HammingCode(0x6F)[0].ToString() + " " + HammingDecode(HammingCode(0x6F)));
             //Выдача
             return framebytes_encoded.ToArray();
         }
@@ -447,8 +452,10 @@ namespace Mail_kursovaya
             //Тут добавить Хемминга
 
             List<byte> frame_list = new List<byte>();
-            for (int ind = 0; ind < frame_encoded.Length; ind++)
-                frame_list.Add(HammingDecode(new byte[]{frame_encoded[ind], frame_encoded[ind + 1]}));
+            frame_list.Add(frame_encoded[0]);
+            for (int ind = 1; ind < frame_encoded.Length-1; ind = ind + 2)
+                frame_list.Add(HammingDecode(new byte[]{frame_encoded[ind+1], frame_encoded[ind]}));
+            frame_list.Add(frame_encoded[frame_encoded.Length - 1]);
             byte[] frame = frame_list.ToArray();
 
             //Начало парсинга
@@ -1061,7 +1068,7 @@ namespace Mail_kursovaya
             if (ReceivedFrame.PortName == "Port2")
             {
                 AuthData_mutex.WaitOne();
-                MessageBox.Show(ReceivedFrame.MessageData);
+                //MessageBox.Show(ReceivedFrame.MessageData);
                 if (!UserStatus.ContainsKey(ReceivedFrame.MessageData) || UserStatus[ReceivedFrame.MessageData] == "Отключён")
                 {
                     UserStatus[ReceivedFrame.MessageData] = "Активен";
@@ -1365,14 +1372,14 @@ namespace Mail_kursovaya
                     TasksToSend.Add(frame_acked1);
                     TaskToSend_mutex.ReleaseMutex();
                     BeginInvoke(new SetTextDeleg(addtotextbox1), new object[]
-                          {$"сообщение(попытка:{counter}, порт:{frame_acked1.PortNum}\r\n"});
+                          {$"сообщение(попытка:{counter}, порт:{frame_acked1.PortNum})\r\n"});
                     counter++;
                 }
 
                 if (counter > 10 && frame_is_to_resend)
                 {
                     BeginInvoke(new SetTextDeleg(addtotextbox1), new object[]
-                                    { "Сообщение  не было доставлено"});
+                                    { "Сообщение  не было доставлено\r\n"});
                     //using (CourseDBContainer db = new CourseDBContainer())
                     {
                         DefaultFrame a = ParseReceivedFrame(LastFrameSenttoPort1.Frame);
@@ -1433,14 +1440,14 @@ namespace Mail_kursovaya
                     TasksToSend.Add(frame_acked2);
                     TaskToSend_mutex.ReleaseMutex();
                     BeginInvoke(new SetTextDeleg(addtotextbox1), new object[]
-                                           {$"сообщение(попытка:{counter}, порт:{frame_acked2.PortNum}"});
+                                           {$"сообщение(попытка:{counter}, порт:{frame_acked2.PortNum})\r\n"});
                     counter++;
                 }
 
                 if (counter > 10 && frame_is_to_resend)
                 {
                     BeginInvoke(new SetTextDeleg(addtotextbox1), new object[]
-                                            { "Сообщение  не было доставлено"});
+                                            { "Сообщение  не было доставлено\r\n"});
                     //using (CourseDBContainer db = new CourseDBContainer())
 
                     {
@@ -2311,7 +2318,7 @@ namespace Mail_kursovaya
             
             if (syndrome != 0)
                 int_bit[syndrome - 1] = (int_bit[syndrome - 1] + 1) % 2;
-            byte res = Convert.ToByte(int_bit[8].ToString() + int_bit[9].ToString() + int_bit[10].ToString() + int_bit[11].ToString() + int_bit[2].ToString() + int_bit[4].ToString() + int_bit[5].ToString() + int_bit[6].ToString(),2);
+            byte res = Convert.ToByte(int_bit[11].ToString() + int_bit[10].ToString() + int_bit[9].ToString() + int_bit[8].ToString() + int_bit[6].ToString() + int_bit[5].ToString() + int_bit[4].ToString() + int_bit[2].ToString(),2);
             return res;
         }
 
