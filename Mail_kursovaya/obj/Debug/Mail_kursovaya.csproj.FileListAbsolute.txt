@@ -32,3 +32,4 @@ C:\Users\Maxim\Documents\Works\Networks_coursework\Mail_kursovaya\bin\Debug\Enti
 C:\Users\Maxim\Documents\Works\Networks_coursework\Mail_kursovaya\bin\Debug\Newtonsoft.Json.xml
 C:\Users\Maxim\Documents\Works\Networks_coursework\Mail_kursovaya\bin\Debug\System.Data.SQLite.xml
 C:\Users\Maxim\Documents\Works\Networks_coursework\Mail_kursovaya\obj\Debug\Mail_kursovaya.csproj.CopyComplete
+C:\Users\Maxim\Documents\Works\Networks_coursework\Mail_kursovaya\obj\Debug\Mail_kursovaya.csproj.AssemblyReference.cache

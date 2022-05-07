@@ -33,7 +33,7 @@ namespace Mail_kursovaya
 
         //private void pictureBox1_Click(object sender, EventArgs e)
         //{
-            
+
         //}
 
         private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -146,7 +146,20 @@ namespace Mail_kursovaya
 
 
         #region Описание Модели Данных
+        public Dictionary<string, string> UserStatus = new Dictionary<string, string>();
+        public void updateStatusBox()
+        {
+            BeginInvoke(new SetTextDeleg(setRichTextBox1), new object[] { "" });
+            foreach (string key in UserStatus.Keys)
+                BeginInvoke(new SetTextDeleg(addToRichTextBox1), new object[] { "Пользователь: " + key + " - " + UserStatus[key] + "\n" });
+        }
+        public void setRichTextBox1(string text)
+        { richTextBox1.Text = text; }
 
+        public void addToRichTextBox1(string text)
+        {
+            richTextBox1.AppendText(text);
+        }
         class inbox_class
         {
             public string id { get; set; }
@@ -412,14 +425,33 @@ namespace Mail_kursovaya
             }
             //Добавление  стопового байта и возврат сформированного кадра в виде byte[]
             framebytes.Add((byte)0xFE);
-            return framebytes.ToArray();
+
+            //Тут добавить Хемминга
+            List<byte> framebytes_encoded = new List<byte>();
+            foreach(byte part in framebytes)
+            {
+                var temp = HammingCode(part);
+                framebytes_encoded.Add(temp[1]);
+                framebytes_encoded.Add(temp[0]);
+            }
+            //Выдача
+            return framebytes_encoded.ToArray();
         }
 
         //разбор кадра, полученного из порта. Возвращает структуру,заполненную принятыми данными
-        public DefaultFrame ParseReceivedFrame(byte[] frame, bool encoding = false)
+        public DefaultFrame ParseReceivedFrame(byte[] frame_encoded, bool encoding = false)
         {
             DefaultFrame ParsedFrame = new DefaultFrame();
-            if (frame == null) { ParsedFrame.ResultOfParsing = "Fail"; return ParsedFrame; }
+            if (frame_encoded == null) { ParsedFrame.ResultOfParsing = "Fail"; return ParsedFrame; }
+
+            //Тут добавить Хемминга
+
+            List<byte> frame_list = new List<byte>();
+            for (int ind = 0; ind < frame_encoded.Length; ind++)
+                frame_list.Add(HammingDecode(new byte[]{frame_encoded[ind], frame_encoded[ind + 1]}));
+            byte[] frame = frame_list.ToArray();
+
+            //Начало парсинга
             if (frame.Length < 5)
             {
                 MessageBox.Show("ParseReceivedFrame(). Длина кадра меньше минимальной", "Error!");
@@ -1015,6 +1047,13 @@ namespace Mail_kursovaya
             if (ReceivedFrame.PortName == "Port1")
             {
                 AuthData_mutex.WaitOne();
+                
+                if (!UserStatus.ContainsKey(ReceivedFrame.MessageData) || UserStatus[ReceivedFrame.MessageData] == "Отключён")
+                {
+                    UserStatus[ReceivedFrame.MessageData] =  "Активен";
+                    updateStatusBox();
+                }
+
                 AuthData["Port1"] = ReceivedFrame.MessageData;
                 AuthData_mutex.ReleaseMutex();
             }
@@ -1022,6 +1061,12 @@ namespace Mail_kursovaya
             if (ReceivedFrame.PortName == "Port2")
             {
                 AuthData_mutex.WaitOne();
+                MessageBox.Show(ReceivedFrame.MessageData);
+                if (!UserStatus.ContainsKey(ReceivedFrame.MessageData) || UserStatus[ReceivedFrame.MessageData] == "Отключён")
+                {
+                    UserStatus[ReceivedFrame.MessageData] = "Активен";
+                    updateStatusBox();
+                }
                 AuthData["Port2"] = ReceivedFrame.MessageData;
                 AuthData_mutex.ReleaseMutex();
 
@@ -1158,11 +1203,20 @@ namespace Mail_kursovaya
             Auth_status["ACK2"] = "undef";
             Auth_status_mutex.ReleaseMutex();
 
+
+            var newDictionary = UserStatus.ToDictionary(entry => entry.Key,entry => entry.Value);
+            foreach (string key in newDictionary.Keys)
+            {
+                UserStatus[key] = "Отключён";
+            }
+            updateStatusBox();
+
+
             BeginInvoke(new Set_ButtonState(Set_AuthConnectButton), new object[] { true });
             BeginInvoke(new Set_ButtonState(Set_AuthDisconnectButton), new object[] { false });
 
             BeginInvoke(new SetTextDeleg(addtotextbox1),
-                new object[] { "Получен кадр о деавторизации, логины сброшены" });
+                new object[] { "Получен кадр о деавторизации, логины сброшены\r\n" });
 
         }
         // Обработчик открытия письма (готов)
@@ -1287,7 +1341,7 @@ namespace Mail_kursovaya
                 if (!frame_is_to_resend)
                 {
                     BeginInvoke(new SetTextDeleg(addtotextbox1), new object[]
-                                            { "Сообщение доставлено"});
+                                            { "Сообщение доставлено\r\n"});
 
                     //using (CourseDBContainer db = new CourseDBContainer())
                     {
@@ -1311,7 +1365,7 @@ namespace Mail_kursovaya
                     TasksToSend.Add(frame_acked1);
                     TaskToSend_mutex.ReleaseMutex();
                     BeginInvoke(new SetTextDeleg(addtotextbox1), new object[]
-                          {$"сообщение(попытка:{counter}, порт:{frame_acked1.PortNum}"});
+                          {$"сообщение(попытка:{counter}, порт:{frame_acked1.PortNum}\r\n"});
                     counter++;
                 }
 
@@ -2057,6 +2111,7 @@ namespace Mail_kursovaya
             Auth_status["ACK2"] = "undef";
             Auth_status["ACK_local"] = "undef";
             Auth_status_mutex.ReleaseMutex();
+            UserStatus.Clear();
 
             TaskToSend_mutex.WaitOne();
             TasksToSend.Add(new One_Task("Port1", CreateNewFrame(FrameType.LOGOUT, "0", null, "0", null, false)));
@@ -2168,12 +2223,103 @@ namespace Mail_kursovaya
         }
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
+            
+        }
+
+        private void справкаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
             MessageBox.Show(
                 "Работу выполнили:\r\n" +
                 "    Смыслов М.А.\r\n" +
                 "    Богданова В.В.\r\n" +
                 "    Родионов Д.А.", "Справка");
         }
+        private byte[] HammingCode(byte input_vec) //Принимает на выход 1 байт, отдаёт 2 закодированных
+        {
+            var BIT = Convert.ToString(input_vec,2); //Берём байт и конвертируем в строку битов
+     
+            while (BIT.Length < 11) 
+            {
+                BIT = '0' + BIT;  //Добавляем нули перед 8 битами тк код у нас [15,11]
+            }
+            int[] int_bit = new int[11]; //массив для перевода строки в массив
+            int iter = 0;
+            foreach(char bit in BIT)
+            {
+                int_bit[10-iter] = int.Parse(bit.ToString()); //Перевод строки в массив: [0 - старший, 11 - младший]
+                iter++;
+            }
+            
+            int[] res = new int[15];
+            int count = 0;
+            for (int ind = 0; ind < 15; ind++) //Обсчёт Хемминга
+            {
+                if (ind == 0)
+                    res[ind] = (int_bit[0] + int_bit[1] + int_bit[3] + int_bit[4] + int_bit[6] + int_bit[8] + int_bit[10]) % 2;
+                else if (ind == 1)
+                    res[ ind] = ((int_bit[0] + int_bit[2] + int_bit[3] + int_bit[5] + int_bit[6] + int_bit[9] + int_bit[10]) % 2);
+                else if (ind == 3)
+                    res[ind] = ((int_bit[1] + int_bit[2] + int_bit[3] + int_bit[7] + int_bit[8] + int_bit[9] + int_bit[10]) % 2);
+                else if (ind == 7)
+                    res[ind] = ((int_bit[4] + int_bit[5] + int_bit[6] + int_bit[7] + int_bit[8] + int_bit[9] + int_bit[10]) % 2);
+                else {
+                    res[ind] = (int_bit[count]);
+                    count += 1;
+                }
+            }
+            byte[] byte_res = new byte[2];
 
+            string string_byte = "";
+            for (int i = 7; i >= 0; i--) string_byte = string_byte + res[i].ToString(); //Конвертация в байты
+            byte_res[0] = Convert.ToByte(string_byte,2);
+
+            string_byte = "0";
+            for (int i = 14; i >= 8; i--) string_byte = string_byte + res[i].ToString();
+            byte_res[1] = Convert.ToByte(string_byte,2);
+            return byte_res;
+        }
+        private byte HammingDecode(byte[] input_vec)
+        {
+            
+            int[] int_bit = new int[15]; //массив для перевода строки в массив
+
+            var BIT = Convert.ToString(input_vec[0], 2);
+            int iter = 0;
+            foreach (char bit in BIT)
+            {
+                
+                int_bit[BIT.Length - iter - 1] = int.Parse(bit.ToString()); //Перевод строки в массив: [0 - старший, 7 - младший]
+                iter++;
+                
+            }
+
+            BIT = Convert.ToString(input_vec[1], 2);
+            iter = 0;
+            foreach (char bit in BIT)
+            {
+                //if (iter == 8) break;
+                int_bit[BIT.Length - iter + 7] = int.Parse(bit.ToString()); //Перевод строки в массив: [0 - старший, 7 - младший]
+                iter++;
+
+            }
+
+            var h1 = (int_bit[0] + int_bit[2] + int_bit[4] + int_bit[6] + int_bit[8] + int_bit[10] + int_bit[12] + int_bit[14]) % 2;
+            var h2 = (int_bit[1] + int_bit[2] + int_bit[5] + int_bit[6] + int_bit[9] + int_bit[10] + int_bit[13] + int_bit[14]) % 2;
+            var h3 = (int_bit[3] + int_bit[4] + int_bit[5] + int_bit[6] + int_bit[11] + int_bit[12] + int_bit[13] + int_bit[14]) % 2;
+            var h4 = (int_bit[7] + int_bit[8] + int_bit[9] + int_bit[10] + int_bit[11] + int_bit[12] + int_bit[13] + int_bit[14]) % 2;
+            var syndrome = arr_to_num(new int[]{ h1, h2, h3, h4});
+            
+            if (syndrome != 0)
+                int_bit[syndrome - 1] = (int_bit[syndrome - 1] + 1) % 2;
+            byte res = Convert.ToByte(int_bit[8].ToString() + int_bit[9].ToString() + int_bit[10].ToString() + int_bit[11].ToString() + int_bit[2].ToString() + int_bit[4].ToString() + int_bit[5].ToString() + int_bit[6].ToString(),2);
+            return res;
+        }
+
+        private int arr_to_num(int[] arr)
+        {
+            int res = 0;
+            for (int ind = 0;ind < arr.Length;ind++) res += Convert.ToInt32(Math.Pow(2,Convert.ToDouble(ind))) * arr[ind];
+            return res;
+        }
     }
 }

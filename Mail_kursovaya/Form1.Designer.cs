@@ -259,7 +259,7 @@ namespace Mail_kursovaya
             this.скоростьToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripComboBox3});
             this.скоростьToolStripMenuItem.Name = "скоростьToolStripMenuItem";
-            this.скоростьToolStripMenuItem.Size = new System.Drawing.Size(191, 34);
+            this.скоростьToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.скоростьToolStripMenuItem.Text = "Скорость";
             // 
             // toolStripComboBox3
@@ -273,7 +273,7 @@ namespace Mail_kursovaya
             this.порт1ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripComboBox1});
             this.порт1ToolStripMenuItem.Name = "порт1ToolStripMenuItem";
-            this.порт1ToolStripMenuItem.Size = new System.Drawing.Size(191, 34);
+            this.порт1ToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.порт1ToolStripMenuItem.Text = "Порт 1";
             // 
             // toolStripComboBox1
@@ -287,7 +287,7 @@ namespace Mail_kursovaya
             this.порт2ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripComboBox2});
             this.порт2ToolStripMenuItem.Name = "порт2ToolStripMenuItem";
-            this.порт2ToolStripMenuItem.Size = new System.Drawing.Size(191, 34);
+            this.порт2ToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.порт2ToolStripMenuItem.Text = "Порт 2";
             // 
             // toolStripComboBox2
@@ -299,8 +299,9 @@ namespace Mail_kursovaya
             // справкаToolStripMenuItem
             // 
             this.справкаToolStripMenuItem.Name = "справкаToolStripMenuItem";
-            this.справкаToolStripMenuItem.Size = new System.Drawing.Size(191, 34);
+            this.справкаToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.справкаToolStripMenuItem.Text = "Справка";
+            this.справкаToolStripMenuItem.Click += new System.EventHandler(this.справкаToolStripMenuItem_Click);
             // 
             // pictureBox1
             // 

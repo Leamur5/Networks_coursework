@@ -33,7 +33,17 @@ namespace Mail_kursovaya
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form2));
             this.label1 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.Номер = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Отправитель = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Получатель = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Тема = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Статус = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Время_получения = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Письмо = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.foreign_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.inboxBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.courseDBBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.courseDB = new Mail_kursovaya.CourseDB();
             this.label2 = new System.Windows.Forms.Label();
             this.ReTextBox = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -45,29 +55,27 @@ namespace Mail_kursovaya
             this.label6 = new System.Windows.Forms.Label();
             this.LetterTextBox = new System.Windows.Forms.RichTextBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.AuthConnectButton = new System.Windows.Forms.Button();
+            this.ReplyConnectButton = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.button2 = new System.Windows.Forms.Button();
             this.inboxTableAdapter1 = new Mail_kursovaya.CourseDBTableAdapters.inboxTableAdapter();
             this.FormStatusLabel = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.courseDBBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.courseDB = new Mail_kursovaya.CourseDB();
-            this.Номер = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Отправитель = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Получатель = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Тема = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Статус = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Время_получения = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Письмо = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.foreign_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.senderDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.recepientDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.reDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.msgDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.statusDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.datereceivedDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.foreignidDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.inboxBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.courseDBBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.courseDB)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -95,7 +103,15 @@ namespace Mail_kursovaya
             this.Статус,
             this.Время_получения,
             this.Письмо,
-            this.foreign_id});
+            this.foreign_id,
+            this.idDataGridViewTextBoxColumn,
+            this.senderDataGridViewTextBoxColumn,
+            this.recepientDataGridViewTextBoxColumn,
+            this.reDataGridViewTextBoxColumn,
+            this.msgDataGridViewTextBoxColumn,
+            this.statusDataGridViewTextBoxColumn,
+            this.datereceivedDataGridViewTextBoxColumn,
+            this.foreignidDataGridViewTextBoxColumn});
             this.dataGridView1.DataSource = this.inboxBindingSource;
             this.dataGridView1.Location = new System.Drawing.Point(105, 71);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -107,10 +123,93 @@ namespace Mail_kursovaya
             this.dataGridView1.TabIndex = 3;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             // 
+            // Номер
+            // 
+            this.Номер.DataPropertyName = "Id";
+            this.Номер.HeaderText = "Номер";
+            this.Номер.MinimumWidth = 6;
+            this.Номер.Name = "Номер";
+            this.Номер.ReadOnly = true;
+            this.Номер.Width = 80;
+            // 
+            // Отправитель
+            // 
+            this.Отправитель.DataPropertyName = "sender";
+            this.Отправитель.HeaderText = "Отправитель";
+            this.Отправитель.MinimumWidth = 6;
+            this.Отправитель.Name = "Отправитель";
+            this.Отправитель.ReadOnly = true;
+            this.Отправитель.Width = 125;
+            // 
+            // Получатель
+            // 
+            this.Получатель.DataPropertyName = "recepient";
+            this.Получатель.HeaderText = "Получатель";
+            this.Получатель.MinimumWidth = 6;
+            this.Получатель.Name = "Получатель";
+            this.Получатель.ReadOnly = true;
+            this.Получатель.Width = 125;
+            // 
+            // Тема
+            // 
+            this.Тема.DataPropertyName = "re";
+            this.Тема.HeaderText = "Тема";
+            this.Тема.MinimumWidth = 6;
+            this.Тема.Name = "Тема";
+            this.Тема.ReadOnly = true;
+            this.Тема.Width = 125;
+            // 
+            // Статус
+            // 
+            this.Статус.DataPropertyName = "status";
+            this.Статус.HeaderText = "Статус";
+            this.Статус.MinimumWidth = 6;
+            this.Статус.Name = "Статус";
+            this.Статус.ReadOnly = true;
+            this.Статус.Width = 125;
+            // 
+            // Время_получения
+            // 
+            this.Время_получения.DataPropertyName = "date_received";
+            this.Время_получения.HeaderText = "Время получения";
+            this.Время_получения.MinimumWidth = 6;
+            this.Время_получения.Name = "Время_получения";
+            this.Время_получения.ReadOnly = true;
+            this.Время_получения.Width = 125;
+            // 
+            // Письмо
+            // 
+            this.Письмо.DataPropertyName = "msg";
+            this.Письмо.HeaderText = "Письмо";
+            this.Письмо.MinimumWidth = 6;
+            this.Письмо.Name = "Письмо";
+            this.Письмо.ReadOnly = true;
+            this.Письмо.Width = 125;
+            // 
+            // foreign_id
+            // 
+            this.foreign_id.DataPropertyName = "foreign_id";
+            this.foreign_id.HeaderText = "foreign_id";
+            this.foreign_id.MinimumWidth = 8;
+            this.foreign_id.Name = "foreign_id";
+            this.foreign_id.ReadOnly = true;
+            this.foreign_id.Visible = false;
+            this.foreign_id.Width = 150;
+            // 
             // inboxBindingSource
             // 
             this.inboxBindingSource.DataMember = "inbox";
             this.inboxBindingSource.DataSource = this.courseDBBindingSource;
+            // 
+            // courseDBBindingSource
+            // 
+            this.courseDBBindingSource.DataSource = this.courseDB;
+            this.courseDBBindingSource.Position = 0;
+            // 
+            // courseDB
+            // 
+            this.courseDB.DataSetName = "CourseDB";
+            this.courseDB.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // label2
             // 
@@ -219,19 +318,19 @@ namespace Mail_kursovaya
             this.label7.TabIndex = 14;
             this.label7.Text = "Тело письма:";
             // 
-            // AuthConnectButton
+            // ReplyConnectButton
             // 
-            this.AuthConnectButton.Cursor = System.Windows.Forms.Cursors.Default;
-            this.AuthConnectButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.AuthConnectButton.Location = new System.Drawing.Point(1292, 424);
-            this.AuthConnectButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.AuthConnectButton.Name = "AuthConnectButton";
-            this.AuthConnectButton.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.AuthConnectButton.Size = new System.Drawing.Size(187, 78);
-            this.AuthConnectButton.TabIndex = 15;
-            this.AuthConnectButton.Text = "Ответить";
-            this.AuthConnectButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.AuthConnectButton.UseVisualStyleBackColor = true;
+            this.ReplyConnectButton.Cursor = System.Windows.Forms.Cursors.Default;
+            this.ReplyConnectButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ReplyConnectButton.Location = new System.Drawing.Point(1292, 424);
+            this.ReplyConnectButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.ReplyConnectButton.Name = "ReplyConnectButton";
+            this.ReplyConnectButton.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.ReplyConnectButton.Size = new System.Drawing.Size(187, 78);
+            this.ReplyConnectButton.TabIndex = 15;
+            this.ReplyConnectButton.Text = "Ответить";
+            this.ReplyConnectButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.ReplyConnectButton.UseVisualStyleBackColor = true;
             // 
             // pictureBox1
             // 
@@ -293,88 +392,77 @@ namespace Mail_kursovaya
             this.label8.TabIndex = 37;
             this.label8.Text = "Статус формы:";
             // 
-            // courseDBBindingSource
+            // idDataGridViewTextBoxColumn
             // 
-            this.courseDBBindingSource.DataSource = this.courseDB;
-            this.courseDBBindingSource.Position = 0;
+            this.idDataGridViewTextBoxColumn.DataPropertyName = "Id";
+            this.idDataGridViewTextBoxColumn.HeaderText = "Id";
+            this.idDataGridViewTextBoxColumn.MinimumWidth = 8;
+            this.idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
+            this.idDataGridViewTextBoxColumn.ReadOnly = true;
+            this.idDataGridViewTextBoxColumn.Width = 150;
             // 
-            // courseDB
+            // senderDataGridViewTextBoxColumn
             // 
-            this.courseDB.DataSetName = "CourseDB";
-            this.courseDB.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            this.senderDataGridViewTextBoxColumn.DataPropertyName = "sender";
+            this.senderDataGridViewTextBoxColumn.HeaderText = "sender";
+            this.senderDataGridViewTextBoxColumn.MinimumWidth = 8;
+            this.senderDataGridViewTextBoxColumn.Name = "senderDataGridViewTextBoxColumn";
+            this.senderDataGridViewTextBoxColumn.ReadOnly = true;
+            this.senderDataGridViewTextBoxColumn.Width = 150;
             // 
-            // Номер
+            // recepientDataGridViewTextBoxColumn
             // 
-            this.Номер.DataPropertyName = "Id";
-            this.Номер.HeaderText = "Номер";
-            this.Номер.MinimumWidth = 6;
-            this.Номер.Name = "Номер";
-            this.Номер.ReadOnly = true;
-            this.Номер.Width = 80;
+            this.recepientDataGridViewTextBoxColumn.DataPropertyName = "recepient";
+            this.recepientDataGridViewTextBoxColumn.HeaderText = "recepient";
+            this.recepientDataGridViewTextBoxColumn.MinimumWidth = 8;
+            this.recepientDataGridViewTextBoxColumn.Name = "recepientDataGridViewTextBoxColumn";
+            this.recepientDataGridViewTextBoxColumn.ReadOnly = true;
+            this.recepientDataGridViewTextBoxColumn.Width = 150;
             // 
-            // Отправитель
+            // reDataGridViewTextBoxColumn
             // 
-            this.Отправитель.DataPropertyName = "sender";
-            this.Отправитель.HeaderText = "Отправитель";
-            this.Отправитель.MinimumWidth = 6;
-            this.Отправитель.Name = "Отправитель";
-            this.Отправитель.ReadOnly = true;
-            this.Отправитель.Width = 125;
+            this.reDataGridViewTextBoxColumn.DataPropertyName = "re";
+            this.reDataGridViewTextBoxColumn.HeaderText = "re";
+            this.reDataGridViewTextBoxColumn.MinimumWidth = 8;
+            this.reDataGridViewTextBoxColumn.Name = "reDataGridViewTextBoxColumn";
+            this.reDataGridViewTextBoxColumn.ReadOnly = true;
+            this.reDataGridViewTextBoxColumn.Width = 150;
             // 
-            // Получатель
+            // msgDataGridViewTextBoxColumn
             // 
-            this.Получатель.DataPropertyName = "recepient";
-            this.Получатель.HeaderText = "Получатель";
-            this.Получатель.MinimumWidth = 6;
-            this.Получатель.Name = "Получатель";
-            this.Получатель.ReadOnly = true;
-            this.Получатель.Width = 125;
+            this.msgDataGridViewTextBoxColumn.DataPropertyName = "msg";
+            this.msgDataGridViewTextBoxColumn.HeaderText = "msg";
+            this.msgDataGridViewTextBoxColumn.MinimumWidth = 8;
+            this.msgDataGridViewTextBoxColumn.Name = "msgDataGridViewTextBoxColumn";
+            this.msgDataGridViewTextBoxColumn.ReadOnly = true;
+            this.msgDataGridViewTextBoxColumn.Width = 150;
             // 
-            // Тема
+            // statusDataGridViewTextBoxColumn
             // 
-            this.Тема.DataPropertyName = "re";
-            this.Тема.HeaderText = "Тема";
-            this.Тема.MinimumWidth = 6;
-            this.Тема.Name = "Тема";
-            this.Тема.ReadOnly = true;
-            this.Тема.Width = 125;
+            this.statusDataGridViewTextBoxColumn.DataPropertyName = "status";
+            this.statusDataGridViewTextBoxColumn.HeaderText = "status";
+            this.statusDataGridViewTextBoxColumn.MinimumWidth = 8;
+            this.statusDataGridViewTextBoxColumn.Name = "statusDataGridViewTextBoxColumn";
+            this.statusDataGridViewTextBoxColumn.ReadOnly = true;
+            this.statusDataGridViewTextBoxColumn.Width = 150;
             // 
-            // Статус
+            // datereceivedDataGridViewTextBoxColumn
             // 
-            this.Статус.DataPropertyName = "status";
-            this.Статус.HeaderText = "Статус";
-            this.Статус.MinimumWidth = 6;
-            this.Статус.Name = "Статус";
-            this.Статус.ReadOnly = true;
-            this.Статус.Width = 125;
+            this.datereceivedDataGridViewTextBoxColumn.DataPropertyName = "date_received";
+            this.datereceivedDataGridViewTextBoxColumn.HeaderText = "date_received";
+            this.datereceivedDataGridViewTextBoxColumn.MinimumWidth = 8;
+            this.datereceivedDataGridViewTextBoxColumn.Name = "datereceivedDataGridViewTextBoxColumn";
+            this.datereceivedDataGridViewTextBoxColumn.ReadOnly = true;
+            this.datereceivedDataGridViewTextBoxColumn.Width = 150;
             // 
-            // Время_получения
+            // foreignidDataGridViewTextBoxColumn
             // 
-            this.Время_получения.DataPropertyName = "date_received";
-            this.Время_получения.HeaderText = "Время получения";
-            this.Время_получения.MinimumWidth = 6;
-            this.Время_получения.Name = "Время_получения";
-            this.Время_получения.ReadOnly = true;
-            this.Время_получения.Width = 125;
-            // 
-            // Письмо
-            // 
-            this.Письмо.DataPropertyName = "msg";
-            this.Письмо.HeaderText = "Письмо";
-            this.Письмо.MinimumWidth = 6;
-            this.Письмо.Name = "Письмо";
-            this.Письмо.ReadOnly = true;
-            this.Письмо.Width = 125;
-            // 
-            // foreign_id
-            // 
-            this.foreign_id.DataPropertyName = "foreign_id";
-            this.foreign_id.HeaderText = "foreign_id";
-            this.foreign_id.MinimumWidth = 8;
-            this.foreign_id.Name = "foreign_id";
-            this.foreign_id.ReadOnly = true;
-            this.foreign_id.Visible = false;
-            this.foreign_id.Width = 150;
+            this.foreignidDataGridViewTextBoxColumn.DataPropertyName = "foreign_id";
+            this.foreignidDataGridViewTextBoxColumn.HeaderText = "foreign_id";
+            this.foreignidDataGridViewTextBoxColumn.MinimumWidth = 8;
+            this.foreignidDataGridViewTextBoxColumn.Name = "foreignidDataGridViewTextBoxColumn";
+            this.foreignidDataGridViewTextBoxColumn.ReadOnly = true;
+            this.foreignidDataGridViewTextBoxColumn.Width = 150;
             // 
             // Form2
             // 
@@ -387,7 +475,7 @@ namespace Mail_kursovaya
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.AuthConnectButton);
+            this.Controls.Add(this.ReplyConnectButton);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.LetterTextBox);
             this.Controls.Add(this.StatusTextBox);
@@ -410,10 +498,10 @@ namespace Mail_kursovaya
             this.Load += new System.EventHandler(this.Form2_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.inboxBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.courseDBBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.courseDB)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -434,7 +522,7 @@ namespace Mail_kursovaya
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.RichTextBox LetterTextBox;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Button AuthConnectButton;
+        private System.Windows.Forms.Button ReplyConnectButton;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Button button2;
@@ -452,5 +540,13 @@ namespace Mail_kursovaya
         private System.Windows.Forms.DataGridViewTextBoxColumn Время_получения;
         private System.Windows.Forms.DataGridViewTextBoxColumn Письмо;
         private System.Windows.Forms.DataGridViewTextBoxColumn foreign_id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn senderDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn recepientDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn reDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn msgDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn statusDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn datereceivedDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn foreignidDataGridViewTextBoxColumn;
     }
 }
