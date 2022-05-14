@@ -58,6 +58,8 @@ namespace Mail_kursovaya
             this.label6 = new System.Windows.Forms.Label();
             this.OpenPortsButton = new System.Windows.Forms.Button();
             this.ClosePortsButton = new System.Windows.Forms.Button();
+            this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
+            this.toolStripComboBox2 = new System.Windows.Forms.ToolStripComboBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -239,15 +241,19 @@ namespace Mail_kursovaya
             // 
             // скоростьToolStripMenuItem
             // 
+            this.скоростьToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripComboBox1});
             this.скоростьToolStripMenuItem.Name = "скоростьToolStripMenuItem";
-            this.скоростьToolStripMenuItem.Size = new System.Drawing.Size(150, 26);
+            this.скоростьToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.скоростьToolStripMenuItem.Text = "Порт 1";
             this.скоростьToolStripMenuItem.Click += new System.EventHandler(this.скоростьToolStripMenuItem_Click);
             // 
             // порт2ToolStripMenuItem
             // 
+            this.порт2ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripComboBox2});
             this.порт2ToolStripMenuItem.Name = "порт2ToolStripMenuItem";
-            this.порт2ToolStripMenuItem.Size = new System.Drawing.Size(150, 26);
+            this.порт2ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.порт2ToolStripMenuItem.Text = "Порт 2";
             // 
             // справкаToolStripMenuItem
@@ -327,6 +333,23 @@ namespace Mail_kursovaya
             this.ClosePortsButton.Text = "Закрыть";
             this.ClosePortsButton.UseVisualStyleBackColor = true;
             // 
+            // toolStripComboBox1
+            // 
+            this.toolStripComboBox1.Items.AddRange(new object[] {
+            "COM1",
+            "COM2"});
+            this.toolStripComboBox1.Name = "toolStripComboBox1";
+            this.toolStripComboBox1.Size = new System.Drawing.Size(121, 28);
+            this.toolStripComboBox1.Click += new System.EventHandler(this.toolStripComboBox1_Click);
+            // 
+            // toolStripComboBox2
+            // 
+            this.toolStripComboBox2.Items.AddRange(new object[] {
+            "COM1",
+            "COM2"});
+            this.toolStripComboBox2.Name = "toolStripComboBox2";
+            this.toolStripComboBox2.Size = new System.Drawing.Size(121, 28);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -399,6 +422,8 @@ namespace Mail_kursovaya
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button OpenPortsButton;
         private System.Windows.Forms.Button ClosePortsButton;
+        private System.Windows.Forms.ToolStripComboBox toolStripComboBox1;
+        private System.Windows.Forms.ToolStripComboBox toolStripComboBox2;
     }
 }
 
