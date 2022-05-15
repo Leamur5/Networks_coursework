@@ -45,7 +45,7 @@ namespace Mail_kursovaya
         public SerialPort serialPort1 = new SerialPort();
         public SerialPort serialPort2 = new SerialPort();
 
-        public bool DEBUG_MODE = true;
+        public bool DEBUG_MODE = false;
         public bool RET_ALLOWED = false;
 
         // Использется для передачи байтов по компорту
@@ -431,16 +431,18 @@ namespace Mail_kursovaya
             foreach (byte part in framebytes)
             {
                 if (part == 0xFF || part == 0xFE) { framebytes_encoded.Add(part); }
-                else {
+                else
+                {
                     var temp = HammingCode(part);
                     framebytes_encoded.Add(temp[1]);
                     framebytes_encoded.Add(temp[0]);
                 }
-                
+
             }
             //MessageBox.Show(HammingCode(0x6F)[1].ToString() + " " + HammingCode(0x6F)[0].ToString() + " " + HammingDecode(HammingCode(0x6F)));
             //Выдача
             return framebytes_encoded.ToArray();
+            //return framebytes.ToArray();
         }
 
         //разбор кадра, полученного из порта. Возвращает структуру,заполненную принятыми данными
@@ -453,8 +455,8 @@ namespace Mail_kursovaya
 
             List<byte> frame_list = new List<byte>();
             frame_list.Add(frame_encoded[0]);
-            for (int ind = 1; ind < frame_encoded.Length-1; ind = ind + 2)
-                frame_list.Add(HammingDecode(new byte[]{frame_encoded[ind+1], frame_encoded[ind]}));
+            for (int ind = 1; ind < frame_encoded.Length - 1; ind = ind + 2)
+                frame_list.Add(HammingDecode(new byte[] { frame_encoded[ind + 1], frame_encoded[ind] }));
             frame_list.Add(frame_encoded[frame_encoded.Length - 1]);
             byte[] frame = frame_list.ToArray();
 
@@ -1260,60 +1262,63 @@ namespace Mail_kursovaya
         {
             byte[] framedata = WIN1251.GetBytes(local_frame.MessageData);
             string framestr = WIN1251.GetString(framedata);
-            inbox_class message_data = JsonConvert.DeserializeObject<inbox_class>(local_frame.MessageData);
-            if (local_frame.ResultOfParsing == "OK")
-            {
-                BeginInvoke
-                     (new SetTextDeleg(addtotextbox1),
-                     new object[] { $"Получено письмо от {message_data.sender}" + "\r\n" });
+            
+                inbox_class message_data = JsonConvert.DeserializeObject<inbox_class>(local_frame.MessageData);
 
-                int foreign_id = int.Parse(message_data.id);
-                inbox_class received_letter = new inbox_class();
-                received_letter.foreign_id = foreign_id.ToString();
-                received_letter.re = message_data.re;
-                received_letter.msg = message_data.msg;
-                received_letter.recepient = message_data.recepient;
-                received_letter.sender = message_data.sender;
-                received_letter.status = "Принято";
 
-                bool letter_already_exists = false;
-                try
+                if (local_frame.ResultOfParsing == "OK")
                 {
-                    CourseDB.inboxRow letter = inboxTableAdapter1.GetData().FirstOrDefault(x => x.foreign_id == received_letter.foreign_id);
-                    if (letter.foreign_id == received_letter.foreign_id)
-                    { letter_already_exists = true; }
-                }
-                catch
-                { letter_already_exists = false; }
-                if (!letter_already_exists)
-                {
-                    inboxTableAdapter1.Insert(received_letter.sender, received_letter.recepient, received_letter.re, received_letter.msg, received_letter.status,DateTime.Now, received_letter.foreign_id);
-                        
-                }
+                    BeginInvoke
+                         (new SetTextDeleg(addtotextbox1),
+                         new object[] { $"Получено письмо от {message_data.sender}" + "\r\n" });
+
+                    int foreign_id = int.Parse(message_data.id);
+                    inbox_class received_letter = new inbox_class();
+                    received_letter.foreign_id = foreign_id.ToString();
+                    received_letter.re = message_data.re;
+                    received_letter.msg = message_data.msg;
+                    received_letter.recepient = message_data.recepient;
+                    received_letter.sender = message_data.sender;
+                    received_letter.status = "Принято";
+
+                    bool letter_already_exists = false;
+                    try
+                    {
+                        CourseDB.inboxRow letter = inboxTableAdapter1.GetData().FirstOrDefault(x => x.foreign_id == received_letter.foreign_id);
+                        if (letter.foreign_id == received_letter.foreign_id)
+                        { letter_already_exists = true; }
+                    }
+                    catch
+                    { letter_already_exists = false; }
+                    if (!letter_already_exists)
+                    {
+                        inboxTableAdapter1.Insert(received_letter.sender, received_letter.recepient, received_letter.re, received_letter.msg, received_letter.status, DateTime.Now, received_letter.foreign_id);
+
+                    }
                     //inboxTableAdapter1.Dispose();
 
-                Inbox_update_mutex.WaitOne();
-                Inbox_update_needed = true;
-                Inbox_update_mutex.ReleaseMutex();
+                    Inbox_update_mutex.WaitOne();
+                    Inbox_update_needed = true;
+                    Inbox_update_mutex.ReleaseMutex();
 
-                TaskToSend_mutex.WaitOne();
-                TasksToSend.Add(new One_Task(local_frame.PortName,
-                                CreateNewFrame(FrameType.ACK, "0", null, "0", null, false))
-                                );
-                TaskToSend_mutex.ReleaseMutex();
-            }
-            else
-            {
-                if (RET_ALLOWED)
-                {
-                    // Если сообщение кривое, то отправляем RET в порт из которого он был принят
                     TaskToSend_mutex.WaitOne();
                     TasksToSend.Add(new One_Task(local_frame.PortName,
-                        CreateNewFrame(FrameType.RET, "0", null, "0", null, false)
-                        ));
+                                    CreateNewFrame(FrameType.ACK, "0", null, "0", null, false))
+                                    );
                     TaskToSend_mutex.ReleaseMutex();
                 }
-            }
+                else
+                {
+                    if (RET_ALLOWED)
+                    {
+                        // Если сообщение кривое, то отправляем RET в порт из которого он был принят
+                        TaskToSend_mutex.WaitOne();
+                        TasksToSend.Add(new One_Task(local_frame.PortName,
+                            CreateNewFrame(FrameType.RET, "0", null, "0", null, false)
+                            ));
+                        TaskToSend_mutex.ReleaseMutex();
+                    }
+                }
         }
 
         /* 
@@ -1508,24 +1513,24 @@ namespace Mail_kursovaya
                 return;
             }
             //using (CourseDBContainer db = new CourseDBContainer())
-            {
-                outbox_class letter = new outbox_class();
-                letter.re = Re_string;
-                letter.sender = AuthData["local"];
-                letter.recepient = Receiver_name;
-                letter.status = "Отправлено";
-                letter.msg = Letter_Message;
-                letter.date_sent = DateTime.Now.ToString();
-                outboxTableAdapter1.Insert(letter.sender, letter.recepient, letter.re, letter.msg, letter.status, DateTime.Parse(letter.date_sent));
-                //db.SaveChanges();
-            }
+            
+            outbox_class letter = new outbox_class();
+            letter.re = Re_string;
+            letter.sender = AuthData["local"];
+            letter.recepient = Receiver_name;
+            letter.status = "Отправлено";
+            letter.msg = Letter_Message;
+            letter.date_sent = DateTime.Now.ToString();
+            outboxTableAdapter1.Insert(letter.sender, letter.recepient, letter.re, letter.msg, letter.status, DateTime.Parse(letter.date_sent));
+            //db.SaveChanges();
+            
             long max;
             CourseDB.outboxRow a;
             //using (CourseDBContainer db = new CourseDBContainer())
-            {
-                max = outboxTableAdapter1.GetData().Max(x => x.Id);
-                a = outboxTableAdapter1.GetData().FirstOrDefault(x => x.Id == max);
-            }
+            
+            max = outboxTableAdapter1.GetData().Max(x => x.Id);
+            a = outboxTableAdapter1.GetData().FirstOrDefault(x => x.Id == max);
+            
             string letter_local_id = a.Id.ToString();
             string receiver_port = AuthData.FirstOrDefault(x => x.Value == Receiver_name).Key;
             outbox_class letter_payload_obj = new outbox_class(a);
@@ -2288,7 +2293,7 @@ namespace Mail_kursovaya
         private byte HammingDecode(byte[] input_vec)
         {
             
-            int[] int_bit = new int[15]; //массив для перевода строки в массив
+            int[] int_bit = new int[16]; //массив для перевода строки в массив
 
             var BIT = Convert.ToString(input_vec[0], 2);
             int iter = 0;

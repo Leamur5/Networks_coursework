@@ -261,7 +261,7 @@ namespace Mail_kursovaya
             else
             {
                 this.form1.ReTextbox.Text = "RE: " + this.ReTextBox.Text;
-                this.form1.LetterTextBox.Text = "Ответ на:\r\n" + this.LetterTextBox.Text + "\r\n------------------------------\r\n";
+                this.form1.LetterTextBox.Text = "Reply to: " + this.LetterTextBox.Text;
                 this.form1.ReceiverComboBox.SelectedItem = SenderTextBox.Text;
                 this.Close();
             }
@@ -277,7 +277,7 @@ namespace Mail_kursovaya
             else
             {
                 this.form1.ReTextbox.Text = "FWD: " + this.ReTextBox.Text;
-                this.form1.LetterTextBox.Text = "Пересылаю:\r\n" + this.LetterTextBox.Text + "\r\n------------------------------\r\n";
+                this.form1.LetterTextBox.Text = "Resend: " + this.LetterTextBox.Text;
                 this.Close();
             }
         }

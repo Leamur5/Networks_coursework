@@ -176,7 +176,7 @@ namespace Mail_kursovaya
             else
             {
                 this.form1.ReTextbox.Text = "FWD: " + this.ReTextBox.Text;
-                this.form1.LetterTextBox.Text = "Пересылаю:\r\n" + this.LetterTextBox.Text + "\r\n------------------------------\r\n";
+                this.form1.LetterTextBox.Text = "Resend: " + this.LetterTextBox.Text;
                 this.Close();
             }
             
